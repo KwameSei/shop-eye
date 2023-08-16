@@ -1,20 +1,31 @@
 import User from '../models/userModel.js';
-import Token from '../models/tokenModel.js';
+// import Token from '../models/tokenModel.js';
 import sendEmail from '../utils/email.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
+import dotenv from 'dotenv';
 
-const generateToken = (id) => {
-  return jwt.sign({id}, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN });
+dotenv.config();
+
+// Get token from model, create cookie and send response
+const sendTokenResponse = (user, statusCode, res) => {
+  // Create token
+  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN });
+  console.log("the token is: ", token);
+  // Remove password from user object
+  const { password: userPassword, ...userData } = user.toObject();
+  console.log("the user data is: ", userData);
+  res.status(statusCode).json({ success: true, roles: user.roles, token, user: userData });
+  console.log("the response is: ", res);
 };
 
 export const registerUser = async (req, res) => {
   try {
-    const { name, email, password, phone } = req.body;
+    const { name, email, password } = req.body;
 
     // Validate user input
-    if (!(email && password && name)) {
+    if (!email || !password || !name) {
       res.status(400)
       throw new Error('All fields are required');
     }
@@ -40,45 +51,38 @@ export const registerUser = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
     // Create user
-    const user = await User.create({
+    const newUser = new User({
       name,
       email: emailToLower,
       password: hashedPassword,
-      phone
     });
+
+    // Save user to database
+    const savedUser = await newUser.save();
 
     // Create token
-    const token = generateToken(user._id);
+    const token = jwt.sign({ user: savedUser }, process.env.JWT_SECRET, { expiresIn: '1d' });
+    
+    const response = {
+      _id: savedUser._id,
+      name: savedUser.name,
+      email: savedUser.email,
+      token
+    };
 
-    // Send HTTP-only cookie
-    res.cookie('token', token, {
-      path: '/',
-      httpOnly: true,
-      expires: new Date(Date.now() + 24 * 60 * 60 * 1000), // 1 day
-      sameSite: 'none',
-      secure: true
-    });
-
-    if (user) {
-      const { _id, name, email, photo, phone, bio } = user;
-      res.status(201).json({
-        _id, name, email, photo, phone, bio, token
-      });
-    } else {
-      res.status(400)
-      throw new Error('Invalid user data');
-    }
+    res.status(201).json({ success: true, data: response });
   } catch (error) {
-    res.status(400)
+    res.status(400);
     throw new Error(error);
   }
 };
 
 // Login user
 export const loginUser = async (req, res) => {
-  try {
+
     const { email, password } = req.body;
 
+  try {
     // Validate user input
     if (!(email && password)) {
       res.status(400)
@@ -89,7 +93,7 @@ export const loginUser = async (req, res) => {
     const emailToLower = email.toLowerCase();
 
     // Check if user exists
-    const user = await User.findOne({ email: emailToLower });
+    const user = await User.findOne({ email: emailToLower }).select('+password');
 
     if (!user) {
       res.status(400)
@@ -99,28 +103,14 @@ export const loginUser = async (req, res) => {
     // Check if password is correct
     const correctPassword = await bcrypt.compare(password, user.password);
     
-    if (user && correctPassword) {
-      // Create token
-      const token = generateToken(user._id);
-
-      // Send HTTP-only cookie
-      res.cookie('token', token, {
-        path: '/',
-        httpOnly: true,
-        expires: new Date(Date.now() + 24 * 60 * 60 * 1000), // 1 day
-        sameSite: 'none',
-        secure: true
-      });
-
-      // Send response
-      const { _id, name, email, photo, phone, bio } = user;
-      res.status(200).json({
-        _id, name, email, photo, phone, bio, token
-      });
-    } else {
+    if (!correctPassword) {
       res.status(400)
       throw new Error('Invalid email or password');
     }
+
+    // Create token
+    sendTokenResponse(user, 200, res);
+    
   } catch (error) {
     res.status(400)
     throw new Error(error);
@@ -132,9 +122,9 @@ export const getUserProfile = async (req, res) => {
   try {
     const user = await User.findById(req.user._id);
     if (user) {
-      const { _id, name, email, photo, phone, bio } = user;
+      const { _id, name, email} = user;
       res.status(200).json({
-        _id, name, email, photo, phone, bio
+        _id, name, email,
       });
     } else {
       res.status(404)
@@ -153,9 +143,9 @@ export const updateUserProfile = async (req, res) => {
     if (user) {
       user.name = req.body.name || user.name;
       user.email = email // disallowing user to change email
-      user.phone = req.body.phone || user.phone;
-      user.bio = req.body.bio || user.bio;
-      user.photo = req.body.photo || user.photo;
+      // user.phone = req.body.phone || user.phone;
+      // user.bio = req.body.bio || user.bio;
+      // user.photo = req.body.photo || user.photo;
 
       // if (req.body.password) {
       //   // Encode password
@@ -165,9 +155,9 @@ export const updateUserProfile = async (req, res) => {
       // }
 
       const updatedUser = await user.save();
-      const { name, email, photo, phone, bio } = updatedUser;
+      const { name, email } = updatedUser;
       res.status(200).json({
-        _id, name, email, photo, phone, bio
+        _id, name, email
       });
     } else {
       res.status(404)

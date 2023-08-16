@@ -1,312 +1,472 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Formik } from 'formik';
+import { Button, DialogActions, DialogContent, DialogContentText, TextField } from '@mui/material';
+import { Close, LockOpen, PersonAdd, Send } from '@mui/icons-material';
 import * as Yup from 'yup';
-
-const RegisterSchema = Yup.object().shape({
-  name: Yup.string()
-    .min(2, 'Name too short!')
-    .max(50, 'Name too long!')
-    .required('Name is required'),
-  email: Yup.string()
-    .email('Invalid email')
-    .required('Email is required'),
-  password: Yup.string()
-    .min(6, 'Password too short!')
-    .max(50, 'Password too long!')
-    .required('Password is required'),
-  confirm_password: Yup.string()
-    .oneOf([Yup.ref('password'), null], 'Passwords must match')
-});
-
-const LoginSchema = Yup.object().shape({
-  email: Yup.string()
-    .email('Invalid email')
-    .required('Email is required'),
-  password: Yup.string()
-    .min(6, 'Password too short!')
-    .max(50, 'Password too long!')
-    .required('Password is required')
-});
-
-const initialValuesLogin = {
-  email: '',
-  password: ''
-};
-
-const initialValuesRegister = {
-  name: '',
-  email: '',
-  password: '',
-  confirm_password: ''
-};
 
 const Auth = () => {
   const navigate = useNavigate();
   const [error, setError] = useState(null);
-  const [submitting, setSubmitting] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [pageType, setPageType] = useState('login');
+  const [isRegister, setIsRegister] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
+  const [title, setTitle] = useState('Login');
+  const nameRef = useRef();
+  const emailRef = useRef();
+  const passwordRef = useRef();
+  const confirmPasswordRef = useRef();
 
-  const isRegister = pageType === "register";
-  const isLogin = pageType === "login";
+  // Use useEffect to change the title of the page
+  useEffect(() => {
+    setTitle(isRegister ? 'Register' : 'Login');
+  }, [isRegister]);
 
   const handleRegister = async (values) => {
-    setIsSubmitting(true);
-    setError(null);
+    const name = nameRef.current.value;
+    const email = emailRef.current.value;
+    const password = passwordRef.current.value;
+    const confirmPassword = confirmPasswordRef.current.value;
+
+    const userData = {
+      name,
+      email,
+      password,
+      confirmPassword
+    };
+
     try {
-      const response = await fetch('http://localhost:5000/api/auth/register', {
+      setIsSubmitting(true);
+      setError(null);
+
+      const response = await fetch('http://localhost:5000/api/users/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(values)
+        body: JSON.stringify(userData)
       });
+
       const data = await response.json();
       setIsSubmitting(false);
+
       if (!response.ok) {
         throw new Error(data.message || 'Something went wrong!');
       }
-      navigate('/login');
+
+      if (response.ok) {
+        localStorage.setItem('userInfo', JSON.stringify(data));
+        navigate('/');
+      }
+      
     } catch (err) {
       console.log(err);
       setError(err.message || 'Something went wrong!');
       setIsSubmitting(false);
+    } finally {
+      setIsSubmitting(false);
     }
+
+    // Clear the form
+    nameRef.current.value = '';
+    emailRef.current.value = '';
+    passwordRef.current.value = '';
+    confirmPasswordRef.current.value = '';
   };
 
   const handleLogin = async (values) => {
-    setIsSubmitting(true);
-    setError(null);
+    const email = emailRef.current.value;
+    const password = passwordRef.current.value;
+
+    const userData = {
+      email,
+      password
+    };
+
     try {
-      const response = await fetch('http://localhost:5000/api/auth/login', {
+      setIsSubmitting(true);
+      setError(null);
+
+      const response = await fetch('http://localhost:5000/api/users/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(values)
+        body: JSON.stringify(userData)
       });
+
       const data = await response.json();
-      setSubmitting(false);
+      setIsSubmitting(false);
+
       if (!response.ok) {
         throw new Error(data.message || 'Something went wrong!');
       }
-      navigate('/');
+
+      if (response.ok) {
+        localStorage.setItem('userInfo', JSON.stringify(data));
+        navigate('/');
+      }
+      
     } catch (err) {
       console.log(err);
       setError(err.message || 'Something went wrong!');
-      setSubmitting(false);
+      setIsSubmitting(false);
+    } finally {
+      setIsSubmitting(false);
+    }
+
+    // Clear the form
+    emailRef.current.value = '';
+    passwordRef.current.value = '';
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (isRegister) {
+      handleRegister();
+    } else {
+      handleLogin();
     }
   };
 
-  const handleSubmit = async (values, { setSubmitting, resetForm }) => {
-    setIsSubmitting(true);
+  const handleRegisterClick = () => {
+    setIsRegister(true);
+    setIsLogin(false);
+  };
 
-    try {
-      if (isRegister) {
-        await RegisterSchema.validate(values, { abortEarly: false });
-        await handleRegister(values);
-      } else if (isLogin) {
-        await LoginSchema.validate(values, { abortEarly: false });
-        await handleLogin(values);
-      }
+  const handleLoginClick = () => {
+    setIsRegister(false);
+    setIsLogin(true);
+  };
 
-      resetForm();
-    } catch (err) {
-      console.log(err);
-      setError(err.message || 'Something went wrong!');
-      setSubmitting(false);
-    }
-
-    setIsSubmitting(false);
-    setSubmitting(false);
-  }
+  const handleCloseLogin = () => {
+    setIsRegister(false);
+    setIsLogin(false);
+  };
 
   return (
     <>
-    <div className="register-box">
-  <div className="register-logo">
-    <a href="../../index2.html">Shop Eye</a>
-  </div>
-  <div className="card">
-    <div className="card-body register-card-body">
-      <p className="login-box-msg">Register a new membership</p>
+      <div className="register-box">
+        <div className="register-logo">
+          <a href="../../index2.html">Shop Eye</a>
 
-      <Formik
-        initialValues={isRegister ? initialValuesRegister : initialValuesLogin}
-        validationSchema={isRegister ? RegisterSchema : LoginSchema}
-        onSubmit={handleSubmit}
-      >
-        {({
-          values,
-          errors,
-          touched,
-          handleChange,
-          handleBlur,
-          handleSubmit,
-          isSubmitting,
-          resetForm,
-          setFieldValue
-        }) => (
-      <>
-      <form onSubmit={handleSubmit}>
-        {isRegister && (
-        <div className="input-group mb-3">
-          <input 
-            type="text"
-            name="name"
-            onChange={handleChange}
-            onBlur={handleBlur}
-            value={values.name}
-            className={
-              errors.name && touched.name
-                ? 'form-control is-invalid'
-                : 'form-control'
-            } 
-            placeholder="Full name"
-          />
-          {/* <div className="input-group-append">
-            <div className="input-group-text">
-              <span className="fas fa-user" />
-            </div>
-          </div> */}
-          {errors.name && touched.name ? (
-            <small id="passwordHelp" className="text-danger">
-              {errors.name}
-            </small>
-          ) : null}
-        </div>
-        )}
+          <div className="card">
+            <div className="card-body register-card-body">
+              <p className="login-box-msg">{title}</p>
 
-        {/* Common fields for registration and login */}
-        <div className="input-group mb-3">
-          <input 
-            type="text"
-            name="email"
-            onChange={handleChange}
-            onBlur={handleBlur}
-            value={values.email}
-            className={
-              errors.email && touched.email
-                ? 'form-control is-invalid'
-                : 'form-control'
-            } 
-            placeholder="Email"
-          />
-          {/* <div className="input-group-append">
-            <div className="input-group-text">
-              <span className="fas fa-user" />
-            </div>
-          </div> */}
-          {errors.email && touched.email ? (
-            <small id="passwordHelp" className="text-danger">
-              {errors.email}
-            </small>
-          ) : null}
-        </div>
+              <form onSubmit={handleSubmit}>
+                <DialogContent dividers>
+                  <DialogContentText>Please enter your details here.</DialogContentText>
+                  {isRegister && (
+                    <TextField
+                      autoFocus
+                      margin="dense"
+                      id="name"
+                      label="Name"
+                      type="text"
+                      fullWidth
+                      inputRef={nameRef}
+                      inputProps={{ minLength: 2, maxLength: 50 }}
+                      required
+                    />
+                  )}
 
-        <div className="input-group mb-3">
-          <input 
-            type="password"
-            name="password"
-            onChange={handleChange}
-            onBlur={handleBlur}
-            value={values.password}
-            className={
-              errors.password && touched.password
-                ? 'form-control is-invalid'
-                : 'form-control'
-            } 
-            placeholder="Password"
-          />
-          {/* <div className="input-group-append">
-            <div className="input-group-text">
-              <span className="fas fa-user" />
-            </div>
-          </div> */}
-          {errors.password && touched.password ? (
-            <small id="passwordHelp" className="text-danger">
-              {errors.password}
-            </small>
-          ) : null}
-        </div>
-
-        <div className="input-group mb-3">
-          <input 
-            type="password"
-            name="confirm_password"
-            onChange={handleChange}
-            onBlur={handleBlur}
-            value={values.confirm_password}
-            className={
-              errors.confirm_password && touched.confirm_password
-                ? 'form-control is-invalid'
-                : 'form-control'
-            } 
-            placeholder="Confirm Password"
-          />
-          {/* <div className="input-group-append">
-            <div className="input-group-text">
-              <span className="fas fa-user" />
-            </div>
-          </div> */}
-          {errors.confirm_password && touched.confirm_password ? (
-            <small id="passwordHelp" className="text-danger">
-              {errors.confirm_password}
-            </small>
-          ) : null}
-        </div>
-
-        <div className="row">
-          <div className="col-8">
-            <div className="icheck-primary">
-              <input type="checkbox" id="agreeTerms" name="terms" defaultValue="agree" />
-              <label htmlFor="agreeTerms">
-                I agree to the <a href="#">terms</a>
-              </label>
+                  {/* Sign up and Login */}
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    id="email"
+                    label="Email Address"
+                    type="email"
+                    fullWidth
+                    inputRef={emailRef}
+                    inputProps={{ minLength: 2, maxLength: 50 }}
+                    required
+                  />
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    id="password"
+                    label="Password"
+                    type="password"
+                    fullWidth
+                    inputRef={passwordRef}
+                    inputProps={{ minLength: 6, maxLength: 50 }}
+                    required
+                  />
+                  {isRegister && (
+                    <TextField
+                      autoFocus
+                      margin="dense"
+                      id="confirmPassword"
+                      label="Confirm Password"
+                      type="password"
+                      fullWidth
+                      inputRef={confirmPasswordRef}
+                      inputProps={{ minLength: 6, maxLength: 50 }}
+                      required
+                    />
+                  )}
+                </DialogContent>
+                <DialogActions>
+                  <Button 
+                    type="submit"
+                    color="primary" 
+                    endIcon={<Send />}
+                    disabled={isSubmitting}
+                  >
+                    Submit
+                  </Button>
+                </DialogActions>
+              </form>
+              <DialogActions
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center'
+                }}
+              >
+                {isRegister
+                  ? "Do you have an account? Sign in here!"
+                  : "Don't have an account? Sign up here!"
+                }
+                <Button
+                  color="primary"
+                  onClick={() => 
+                    setIsRegister(!isRegister)}
+                    variant="text"
+                >
+                  {isRegister ? 'Sign in' : 'Sign up'}
+                </Button>
+              </DialogActions>
             </div>
           </div>
-          {/* BUTTON */}
-          <div className="col-4">
-            <button
-              type="submit" 
-              className="btn btn-primary btn-block"
-              disabled={isSubmitting}
-            >{isRegister ? "Register" : "Login"}</button>
-          </div>
         </div>
-      </form>
-      <div className="social-auth-links text-center">
-        <p>- OR -</p>
-        <a href="#" className="btn btn-block btn-primary">
-          <i className="fab fa-facebook mr-2" />
-          Sign up using Facebook
-        </a>
-        <a href="#" className="btn btn-block btn-danger">
-          <i className="fab fa-google-plus mr-2" />
-          Sign up using Google+
-        </a>
       </div>
-
-      <h5
-        onClick={() => {
-          setPageType(isRegister ? "login" : "register");
-          setError(null);
-          resetForm();
-        }}
-      >
-        {isRegister 
-          ? "I already have a membership" 
-          : "Register a new membership"}
-      </h5>
-      </>
-      )}
-      </Formik>
-    </div>
-  </div>
-</div>
-</>
+    </>
   )
-}
+};
+
+// const RegisterSchema = Yup.object().shape({
+//   name: Yup.string()
+//     .min(2, 'Name too short!')
+//     .max(50, 'Name too long!')
+//     .required('Name is required'),
+//   email: Yup.string()
+//     .email('Invalid email')
+//     .required('Email is required'),
+//   password: Yup.string()
+//     .min(6, 'Password too short!')
+//     .max(50, 'Password too long!')
+//     .required('Password is required'),
+//   confirm_password: Yup.string()
+//     .oneOf([Yup.ref('password'), null], 'Passwords must match')
+// });
+
+// const LoginSchema = Yup.object().shape({
+//   email: Yup.string()
+//     .email('Invalid email')
+//     .required('Email is required'),
+//   password: Yup.string()
+//     .min(6, 'Password too short!')
+//     .max(50, 'Password too long!')
+//     .required('Password is required')
+// });
+
+// const Auth = () => {
+//   const navigate = useNavigate();
+//   const [error, setError] = useState(null);
+//   const [isSubmitting, setIsSubmitting] = useState(false);
+//   const [pageType, setPageType] = useState('login');
+
+//   const isRegister = pageType === 'register';
+//   const isLogin = pageType === 'login';
+
+//   const handleRegister = async (values) => {
+//     setIsSubmitting(true);
+//     setError(null);
+//     try {
+//       const response = await fetch('http://localhost:5000/api/users/register', {
+//         method: 'POST',
+//         headers: {
+//           'Content-Type': 'application/json'
+//         },
+//         body: JSON.stringify(values)
+//       });
+//       const data = await response.json();
+//       setIsSubmitting(false);
+//       if (!response.ok) {
+//         throw new Error(data.message || 'Something went wrong!');
+//       }
+//       navigate('/login');
+//     } catch (err) {
+//       console.log(err);
+//       setError(err.message || 'Something went wrong!');
+//       setIsSubmitting(false);
+//     }
+//   };
+
+//   const handleLogin = async (values) => {
+//     setIsSubmitting(true);
+//     setError(null);
+//     try {
+//       const response = await fetch('http://localhost:5000/api/users/login', {
+//         method: 'POST',
+//         headers: {
+//           'Content-Type': 'application/json'
+//         },
+//         body: JSON.stringify(values)
+//       });
+//       const data = await response.json();
+//       setIsSubmitting(false);
+
+//       if (response.ok) {
+//         localStorage.setItem('userInfo', JSON.stringify(data));
+//         navigate('/');
+//       }
+//     } catch (err) {
+//       console.log(err);
+//       setError(err.message || 'Something went wrong!');
+//       setIsSubmitting(false);
+//     }
+//   };
+
+//   const handleSubmit = async (event, { setSubmitting, resetForm }) => {
+//     event.preventDefault();
+//     setError(null);
+//     setSubmitting(true);
+
+//     const formData = new FormData(event.target);
+//     const values = {};
+
+//     formData.forEach((value, key) => {
+//       values[key] = value;
+//     });
+
+//     try {
+//       if (isRegister) {
+//         await RegisterSchema.validate(values, { abortEarly: false });
+//         await handleRegister(values);
+//       } else if (isLogin) {
+//         await LoginSchema.validate(values, { abortEarly: false });
+//         await handleLogin(values);
+//       }
+
+//       resetForm();
+//     } catch (err) {
+//       console.log(err);
+//       setError(err.message || 'Something went wrong!');
+//     }
+
+//     setSubmitting(false);
+//     setIsSubmitting(false);
+//   };
+
+//   return (
+//     <>
+//       <div className="register-box">
+//         <div className="register-logo">
+//           <a href="../../index2.html">Shop Eye</a>
+//         </div>
+//         <div className="card">
+//           <div className="card-body register-card-body">
+//             <p className="login-box-msg">
+//               {isRegister ? 'Register a new membership' : 'Login'}
+//             </p>
+
+//             <form onSubmit={handleSubmit}>
+//               {isRegister && (
+//                 <div className="input-group mb-3">
+//                   <TextField
+//                     type="text"
+//                     name="name"
+//                     className="form-control"
+//                     placeholder="Full name"
+//                   />
+//                 </div>
+//               )}
+
+//               <div className="input-group mb-3">
+//                 <TextField
+//                   type="email"
+//                   name="email"
+//                   className="form-control"
+//                   placeholder="Email"
+//                 />
+//               </div>
+
+//               <div className="input-group mb-3">
+//                 <TextField
+//                   type="password"
+//                   name="password"
+//                   className="form-control"
+//                   placeholder="Password"
+//                 />
+//               </div>
+
+//               {isRegister && (
+//                 <div className="input-group mb-3">
+//                   <TextField
+//                     type="password"
+//                     name="confirm_password"
+//                     className="form-control"
+//                     placeholder="Confirm Password"
+//                   />
+//                 </div>
+//               )}
+
+//               <div className="row">
+//                 <div className="col-8">
+//                   <div className="icheck-primary">
+//                     <input
+//                       type="checkbox"
+//                       id="agreeTerms"
+//                       name="terms"
+//                       className="form-check-input"
+//                     />
+//                     <label htmlFor="agreeTerms">
+//                       I agree to the <a href="#">terms</a>
+//                     </label>
+//                   </div>
+//                 </div>
+//                 <div className="col-4">
+//                   <button
+//                     type="submit"
+//                     className="btn btn-primary btn-block"
+//                     disabled={isSubmitting}
+//                   >
+//                     {isRegister ? 'Register' : 'Login'}
+//                   </button>
+//                 </div>
+//               </div>
+
+//               <div className="social-auth-links text-center">
+//                   <p>- OR -</p>
+//                   <a href="#" className="btn btn-block btn-primary">
+//                     <i className="fab fa-facebook mr-2" />
+//                     Sign up using Facebook
+//                   </a>
+//                   <a href="#" className="btn btn-block btn-danger">
+//                     <i className="fab fa-google-plus mr-2" />
+//                     Sign up using Google+
+//                   </a>
+//               </div>
+
+//               <h5
+//                 onClick={() => {
+//                   setPageType(isRegister ? 'login' : 'register');
+//                   setError(null);
+//                 }}
+//               >
+//                 {isRegister ? 'I already have a membership' : 'Register a new membership'}
+//               </h5>
+//             </form>
+//           </div>
+//         </div>
+//       </div>
+//     </>
+//   );
+// };
 
 export default Auth;

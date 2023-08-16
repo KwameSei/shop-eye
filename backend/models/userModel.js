@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
 
-const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z)]{2,}))$/;
-const phoneRegex = /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/;
+const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+// const phoneRegex = /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/;
 
-const userSchema = mongoose.Schema({
+const userSchema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, "Please enter your name"],
@@ -22,21 +22,21 @@ const userSchema = mongoose.Schema({
     minlength: [6, "Password must be at least 6 characters long"],
     select : false // Prevents password from being returned in response
   },
-  phone: {
-    type: String,
-    required: [true, "Please enter your phone number"],
-    unique: true,
-    match: [phoneRegex, "Please provide a valid phone number"],
-  },
-  photo: {
-    type: String,
-    required: [true, "Please upload your photo"],
-    default: "https://www.flaticon.com/free-icon/user_709722",
-  },
-  bio: {
-    type: String,
-    maxLength: [500, "Bio cannot be more than 500 characters long"],
-  },
+  // phone: {
+  //   type: String,
+  //   required: [true, "Please enter your phone number"],
+  //   unique: true,
+  //   match: [phoneRegex, "Please provide a valid phone number"],
+  // },
+  // photo: {
+  //   type: String,
+  //   required: [true, "Please upload your photo"],
+  //   default: "https://www.flaticon.com/free-icon/user_709722",
+  // },
+  // bio: {
+  //   type: String,
+  //   maxLength: [500, "Bio cannot be more than 500 characters long"],
+  // },
 }, {
   timestamps: true,
 })
