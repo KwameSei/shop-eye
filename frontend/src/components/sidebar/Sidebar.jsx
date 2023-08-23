@@ -786,7 +786,7 @@ const Sidebar = () => {
       </nav>
     </div>
   </aside>
-  <div className="content-wrapper">
+  {/* <div className="content-wrapper">
     <section className="content-header">
       <div className="container-fluid">
         <div className="row mb-2">
@@ -830,7 +830,7 @@ const Sidebar = () => {
         </div>
       </div>
     </section>
-  </div>
+  </div> */}
   <footer className="main-footer">
     <div className="float-right d-none d-sm-block">
       <b>Version</b> 3.2.0

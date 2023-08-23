@@ -1,11 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { Button, DialogActions, DialogContent, DialogContentText, TextField } from '@mui/material';
 import { Close, LockOpen, PersonAdd, Send } from '@mui/icons-material';
+import { setLogin, setRegister } from '../../State/auth/authSlice';
 import * as Yup from 'yup';
 
-const Auth = () => {
+const Auth = ({ onSignIn }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [error, setError] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [pageType, setPageType] = useState('login');
@@ -16,6 +19,9 @@ const Auth = () => {
   const emailRef = useRef();
   const passwordRef = useRef();
   const confirmPasswordRef = useRef();
+
+  const user = useSelector((state) => state.user);
+  const token = useSelector((state) => state.token);
 
   // Use useEffect to change the title of the page
   useEffect(() => {
@@ -42,6 +48,7 @@ const Auth = () => {
       const response = await fetch('http://localhost:5000/api/users/register', {
         method: 'POST',
         headers: {
+          authorization: `Bearer ${token}`,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(userData)
@@ -55,8 +62,8 @@ const Auth = () => {
       }
 
       if (response.ok) {
-        localStorage.setItem('userInfo', JSON.stringify(data));
-        navigate('/');
+        dispatch(setRegister(data));
+        navigate('/login');
       }
       
     } catch (err) {
@@ -83,19 +90,20 @@ const Auth = () => {
       password
     };
 
-    try {
       setIsSubmitting(true);
       setError(null);
-
+    try {
       const response = await fetch('http://localhost:5000/api/users/login', {
         method: 'POST',
         headers: {
+          authorization: `Bearer ${token}`,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(userData)
       });
 
       const data = await response.json();
+      console.log('Response from API:', data);
       setIsSubmitting(false);
 
       if (!response.ok) {
@@ -103,10 +111,10 @@ const Auth = () => {
       }
 
       if (response.ok) {
-        localStorage.setItem('userInfo', JSON.stringify(data));
-        navigate('/');
+        dispatch(setLogin(data))
+        onSignIn(data.token, data.user);
+        navigate('/dashboard')
       }
-      
     } catch (err) {
       console.log(err);
       setError(err.message || 'Something went wrong!');
