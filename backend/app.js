@@ -6,6 +6,7 @@ import cookieParser from 'cookie-parser';
 
 import errorHandler from './middlewares/errorMiddleware.js';
 import userRoutes from './routes/userRoutes.js';
+import posRoutes from './routes/posRoutes.js';
 
 dotenv.config();
 
@@ -20,6 +21,7 @@ app.use(bodyParser.json())
 
 // Routes
 app.use('/api/users', userRoutes);
+app.use('/api/pos', posRoutes);
 
 // Error Middleware
 app.use(errorHandler);

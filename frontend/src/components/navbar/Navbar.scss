@@ -1,0 +1,29 @@
+.menus {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 100%;
+  list-style: none;
+  padding: 0;
+
+  .menu-items {
+    position: relative;
+    font-size: 14px;
+
+    a {
+      color: #000;
+      text-decoration: none;
+      padding: 10px 15px;
+      display: block;
+      transition: all 0.3s ease-in-out;
+      border-radius: 5px;
+
+      &:hover {
+        background-color: #fff;
+        color: #000;
+      }
+    }
+  }
+}

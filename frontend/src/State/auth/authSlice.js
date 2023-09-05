@@ -6,6 +6,8 @@ const initialState = {
     isLoading: false,
     error: null,
     user: null,
+    users: [],
+    success: false,
 };
 
 const authSlice = createSlice({
@@ -55,6 +57,40 @@ const authSlice = createSlice({
       state.user = null;
       state.token = null;
     },
+    getUser: (state, action) => {
+      state.user = action.payload;
+    },
+    updateUser: (state, action) => {
+      state.user = {
+        ...state.user,
+        ...action.payload
+      }
+    },
+    setUsers: (state, action) => {
+      state.users = action.payload.users;
+    },
+    setUser: (state, action) => {
+      // state.users = state.users.map((user) => {
+      //   if (user._id === action.payload._id) {
+      //     return action.payload.user;
+      //   }
+      //   return user;
+      // });
+      state.user = action.payload;
+    },
+    clearUser: (state, action) => {
+      state.user = null;
+      state.isLoading = false;
+      state.error = null;
+      state.token = null;
+      state.success = false;
+    },
+    updatePassword: (state, action) => {
+      state.user = {
+        ...state.user,
+        password: action.payload
+      }
+    },
   },
 });
 
@@ -66,6 +102,12 @@ export const {
   setLogin,
   setRegister,
   setLogout,
+  getUser,
+  setUser,
+  setUsers,
+  updateUser,
+  clearUser,
+  updatePassword,
 } = authSlice.actions;
 
 export default authSlice.reducer;

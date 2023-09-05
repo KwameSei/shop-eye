@@ -61,10 +61,19 @@ const Auth = ({ onSignIn }) => {
         throw new Error(data.message || 'Something went wrong!');
       }
 
-      if (response.ok) {
-        dispatch(setRegister(data));
-        navigate('/login');
-      }
+      // Display a message to the user about activation
+      alert('Please check your email to activate your account!');
+
+      // if (response.ok) {
+      //   dispatch(setRegister(data));
+      //   navigate('/login');
+      // }
+
+      // Clear the form
+      nameRef.current.value = '';
+      emailRef.current.value = '';
+      passwordRef.current.value = '';
+      confirmPasswordRef.current.value = '';
       
     } catch (err) {
       console.log(err);
@@ -75,10 +84,10 @@ const Auth = ({ onSignIn }) => {
     }
 
     // Clear the form
-    nameRef.current.value = '';
-    emailRef.current.value = '';
-    passwordRef.current.value = '';
-    confirmPasswordRef.current.value = '';
+    // nameRef.current.value = '';
+    // emailRef.current.value = '';
+    // passwordRef.current.value = '';
+    // confirmPasswordRef.current.value = '';
   };
 
   const handleLogin = async (values) => {

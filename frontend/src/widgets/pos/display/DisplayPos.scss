@@ -1,0 +1,68 @@
+/* Custom styles for the content wrapper */
+.content-wrapper {
+  background-color: #f7f7f7;
+  padding: 20px;
+}
+
+/* Custom styles for the content header */
+.content-header {
+  background-color: #fff;
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Custom styles for the page title */
+.content-header h1 {
+  margin: 0;
+  font-size: 24px;
+  color: #333;
+}
+
+/* Custom styles for the card */
+.card {
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+
+/* Custom styles for the card header */
+.card-header {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 15px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+/* Custom styles for the card title */
+.card-title {
+  font-size: 18px;
+  margin: 0;
+}
+
+/* Custom styles for the card body */
+.card-body {
+  padding: 15px;
+}
+
+/* Custom styles for the table */
+.custom-table {
+  width: 100%;
+  margin-bottom: 0;
+}
+
+/* Custom styles for the table header */
+.custom-table thead {
+  background-color: #007bff;
+  color: #fff;
+}
+
+/* Custom styles for the table header cells */
+.custom-table th {
+  font-weight: bold;
+}
+
+/* Custom styles for the table body cells */
+.custom-table td {
+  vertical-align: middle;
+}
