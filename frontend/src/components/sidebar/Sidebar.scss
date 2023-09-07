@@ -1,0 +1,133 @@
+.sidebar {
+  position: fixed;
+  height: 100%;
+  width: 220px;
+  flex-shrink: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  overflow: auto;
+  z-index: 1;
+}
+
+// STYLING SIDEBARMENU
+.sidebar-item {
+  display: block;
+  padding: 0 5px;
+  color: #fff;
+  transition: background-color 0.3s ease;
+
+  // &:hover {
+  //   background-color: #fff;
+  //   color: #000;
+  //   transition: all 0.3s ease;
+  // }
+}
+
+.sidebar-item.open {
+  .sidebar-title {
+    .toggle-btn {
+      transform: rotate(180deg);
+    }
+  }
+
+  .sidebar-content {
+    height: auto;
+
+    .sidebar-submenu {
+      display: flex;
+      padding: 0.5rem 0;
+      margin-left: 1rem;
+
+      .submenu-icon {
+        margin-right: 1rem;
+      }
+
+      .submenu-name {
+        .link {
+          color: #fff;
+          text-decoration: none;
+        }
+      }
+    }
+  }
+}
+.sidebar-title {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5px;
+
+  .toggle-btn {
+    cursor: pointer;
+    transition: transform 0.3s;
+  }
+
+  span {
+    display: flex;
+    justify-content: space-between;
+
+    .menu-name {
+      margin-left: 1.5rem;
+
+      .link {
+        color: #fff;
+        text-decoration: none;
+      }
+    }
+  }
+}
+
+.sidebar-title span .sidebar-icon {
+  display: inline-block;
+  width: 0.5rem;
+};
+
+.sidebar-content {
+  padding-top: .25rem;
+  height: 0;
+  overflow: hidden;
+}
+
+
+//   span {
+//   // display: flex;
+//   // align-items: center;
+//   // justify-content: space-between;
+//   // padding: 5px;
+//   // font-size: 1.5rem;
+//   // margin-left: 5px;
+
+//   // .menu-name {
+//   //   margin-right: 3rem;
+//   // }
+
+//   .sidebar-icon {
+//     display: inline-block;
+//     width: 0.5rem;
+//   }
+
+//   // &:hover {
+//   //   background-color: #fff;
+//   //   color: #000;
+//   //   transition: all 0.3s ease;
+//   // };
+
+//   .toggle-btn {
+//     cursor: pointer;
+//     transition: transform 0.3s;
+//   }
+// }
+// }
+
+// .sidebar-item.open .sidebar-title .toggle-btn {
+//   transform: rotate(180deg);
+// }
+
+// .sidebar-content {
+//   padding-top: .25rem;
+//   height: 0;
+//   overflow: hidden;
+// }
+
+// .sidebar-item.open .sidebar-content {
+//   height: auto;
+//   padding: 0.5rem 0.5rem 0.5rem 2rem;
+// }
