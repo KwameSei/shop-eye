@@ -3,28 +3,20 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { PlusOne, Delete, Edit } from "@mui/icons-material";
 import swal from "sweetalert";
-import { deletePos, getPos } from "../../../State/POS/posSlice";
+import { deleteBranch, getBranch } from "../../../State/POS/posSlice";
 
 import "./DisplayPos.scss";
 import '../../Common.scss';
 
-const DisplayPos = () => {
+const DisplayBranch = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const pos = useSelector((state) => state.pos.pos);
-  // const [pos, setPos] = useState([]); 
+  const branch = useSelector((state) => state.pos.branch);
   const token = useSelector((state) => state.auth.token);
 
-  // useEffect(() => {
-  //   if (localStorage.getItem('token') === null) {
-  //     navigate('/login');
-  //   }
-  //   dispatch(getPos());
-  // }, []);
-
-  const fetchPos = async () => {
+  const fetchBranch = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/pos/get-pos", {
+      const res = await fetch("http://localhost:5000/api/branches/get-branches", {
         method: "GET",
         headers: {
           authorization: `Bearer ${token}`,
@@ -33,19 +25,24 @@ const DisplayPos = () => {
       });
 
       const data = await res.json();
+      console.log("Branch data", data);
 
       if (!res.ok) {
         throw new Error(data.message || "Something went wrong!");
       }
 
       if (res.ok) {
-        dispatch(getPos(data.pos));
+        dispatch(getBranch(data.branches));
+        console.log("Dispatched Branch data", data.branch);
       }
-    } catch (err) {};
+    } catch (err) {
+      console.log(err);
+      err.message = "Failed to fetch";
+    };
   };
 
   useEffect(() => {
-    fetchPos();
+    fetchBranch();
   }, []);
 
   function confirmDelete(id) {
@@ -57,8 +54,8 @@ const DisplayPos = () => {
       dangerMode: true,
     }).then((willDelete) => {
       if (willDelete) {
-        dispatch(deletePos(id));
-        swal("Poof! Your POS Machine data has been deleted!", {
+        dispatch(deleteBranch(id));
+        swal("Poof! Your POS Branch data has been deleted!", {
           icon: "success",
         });
       }
@@ -71,7 +68,7 @@ const DisplayPos = () => {
         <div className="container-fluid">
           <div className="row mb-2">
             <div className="col-sm-6">
-              <h1 className="m-0 text-dark">Available POS Machines</h1>
+              <h1 className="m-0 text-dark">Available POS Branches</h1>
             </div>
           </div>
         </div>
@@ -85,7 +82,7 @@ const DisplayPos = () => {
                   <h3 className="card-title"></h3>
                   <div className="card-tools">
                     <div className="input-group input-group-sm">
-                      <Link to="/create-pos">
+                      <Link to="/create-branch">
                         <button type="submit" className="btn btn-default">
                           <PlusOne />
                         </button>
@@ -97,22 +94,34 @@ const DisplayPos = () => {
                   <table className="table table-hover text-nowrap custom-table">
                     <thead>
                       <tr>
-                        <th>Alias</th>
-                        <th>Serial Number</th>
-                        <th>Created Date</th>
+                        <th>Store Front</th>
+                        <th>Branch Name</th>
+                        <th>Phone</th>
+                        <th>Address</th>
+                        <th>Created At</th>
                         <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {pos && pos.length > 0 ? (
-                        pos.map((data, index) => {
+                      {branch && branch.length > 0 ? (
+                        branch.map((data, index) => {
                           return (
                             <tr key={index}>
-                              <td>{data.alias}</td>
-                              <td>{data.serial_number}</td>
+                              <td>
+                              {data.image && (
+                                  <img
+                                    src={data.image.url}
+                                    alt={`Branch ${index} Image`}
+                                    style={{ width: "50px", height: "50px" }}
+                                  />
+                                )}
+                              </td>
+                              <td>{data.name}</td>
+                              <td>{data.phone}</td>
+                              <td>{data.address}</td>
                               <td>{data.createdAt}</td>
                               <td>
-                                <Link to={`/update-pos/${data._id}`}>
+                                <Link to={`/update-branch/${data._id}`}>
                                   <Edit />
                                 </Link>
                                 {" | "}
@@ -140,4 +149,4 @@ const DisplayPos = () => {
   );
 };
 
-export default DisplayPos;
+export default DisplayBranch;

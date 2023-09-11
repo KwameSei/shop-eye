@@ -6,7 +6,19 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate, Routes, Route, useLocation } from 'react-router-dom';
 import { Sidebar, Header, Footer, ProtectedRoute } from './components'
-import { Dashboard, Auth, Home, Profile, AccountActivation, Logout, PosCreate, DisplayPos, UpdatePos } from './widgets';
+import { 
+  Dashboard,
+  Auth, 
+  Home, 
+  Profile, 
+  AccountActivation, 
+  Logout, 
+  PosCreate, 
+  DisplayPos, 
+  UpdatePos,
+  CreateBranch,
+  DisplayBranch,
+} from './widgets';
 import { setLogin } from './State/auth/authSlice';
 
 // import { useAuth } from './components/useAuth.jsx';
@@ -69,6 +81,8 @@ function App() {
           <Route path='/dashboard' element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
           <Route path='/create-pos' element={<PosCreate />} />
           <Route path='/display-pos' element={<DisplayPos />} />
+          <Route path='/create-branch' element={<ProtectedRoute><CreateBranch /></ProtectedRoute>} />
+          <Route path='/display-branches' element={<ProtectedRoute><DisplayBranch /></ProtectedRoute>} />
           <Route path='/update-pos/:id' element={<UpdatePos />} />
           <Route path='/account-activation/:token' element={<AccountActivation />} />
             {/* <Route element={<Dashboard />}  /> */}

@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import Pos from '../models/posModel.js';
 
 export const createPos = async (req, res) => {
@@ -60,11 +61,22 @@ export const getSinglePos = async (req, res) => {
 
 // Update a POS
 export const updatePos = async (req, res) => {
+  const posId = req.params.id;
+
+  // Check if posId is a valid ObjectId
+  if (!mongoose.Types.ObjectId.isValid(posId)) {
+    return res.status(400).json({
+      success: false,
+      status: 400,
+      message: "Invalid POS ID",
+    });
+  }
+
   try {
     const { alias, serial_number, email} = req.body;
     console.log(req.body);
     // Find the POS by id
-    let pos = await Pos.findById(req.params.id);
+    let pos = await Pos.findById(posId);
     console.log("This is pos", pos);
 
     if (!pos) {

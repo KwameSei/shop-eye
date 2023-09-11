@@ -124,9 +124,31 @@
       "path": "/report-bug"
     },
     {
-      "title": "Menu 1",
-      "icon": "BugReport",
-      "path": "/menu1"
+      "title": "POS Management",
+      "icon": "Person",
+      "childrens": [
+        {
+          "title": "Create POS",
+          "path": "/create-pos"
+        },
+        {
+          "title": "Get All POS",
+          "path": "/display-pos"
+        },
+        {
+          "title": "Update POS",
+          "path": "/update-pos/:id"
+        },
+        {"title": "Branches"},
+        {
+          "title": "Create Branch",
+          "path": "/create-branch"
+        },
+        {
+          "title": "Get All Branches",
+          "path": "/display-branches"
+        }
+      ]
     },
     {
       "title": "Menu 2",

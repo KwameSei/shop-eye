@@ -1,47 +1,58 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { Send } from '@mui/icons-material';
 import { Button, DialogActions, DialogContent, DialogContentText, TextField } from '@mui/material';
-import { Close, LockOpen, PersonAdd, Send } from '@mui/icons-material';
-import { setPos } from '../../../State/POS/posSlice';
-import * as Yup from 'yup';
+import { setBranch } from '../../../State/POS/posSlice';
 import '../../Common.scss';
 
-const PosCreate = () => {
+const CreateBranch = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [error, setError] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [setIsPos, setIsPossetIsPos] = useState(false);
-  const aliasRef = useRef();
-  const emailRef = useRef();
-  const serial_numberRef = useRef();
+  const nameRef = useRef();
+  const phoneRef = useRef();
+  const addressRef = useRef();
+  const imageRef = useRef();
 
   const user = useSelector((state) => state.user);
   const token = useSelector((state) => state.token);
 
-  const handlePos = async (values) => {
-    const alias = aliasRef.current.value;
-    const email = emailRef.current.value;
-    const serial_number = serial_numberRef.current.value;
+  const showPreviewImage = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      let imageFile = e.target.files[0];
+      const reader = new FileReader();
+      reader.onload = (x) => {
+        setImagePreview(x.target.result);
+      };
+      reader.readAsDataURL(imageFile);
+    }
+  };
 
-    const posData = {
-      alias,
-      email,
-      serial_number
-    };
+  const handlePos = async (values) => {
+    const name = nameRef.current.value;
+    const phone = phoneRef.current.value;
+    const address = addressRef.current.value;
+    const imageFile = imageRef.current.files[0]; // Get the selected image file
+
+    const formData = new FormData(); // Create a new FormData object
+    formData.append('name', name);
+    formData.append('phone', phone);
+    formData.append('address', address);
+    formData.append('image', imageFile); // Append the image file to FormData
 
     try {
       setIsSubmitting(true);
       setError(null);
 
-      const response = await fetch('http://localhost:5000/api/pos/create-pos', {
+      const response = await fetch('http://localhost:5000/api/branches/create-branch', {
         method: 'POST',
         headers: {
           authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json'
         },
-        body: JSON.stringify(posData)
+        body: formData, // Use the FormData object directly
       });
 
       const data = await response.json();
@@ -53,17 +64,18 @@ const PosCreate = () => {
       }
 
       if (response.ok) {
-        dispatch(setPos(data));
+        dispatch(setBranch(data));
         navigate('/dashboard');
       }
 
       // Clear the form
-      aliasRef.current.value = '';
-      emailRef.current.value = '';
-      serial_numberRef.current.value = '';
+      nameRef.current.value = '';
+      phoneRef.current.value = '';
+      addressRef.current.value = '';
+      imageRef.current.value = '';
       
     } catch (err) {
-      console.log(err);
+      console.error(err);
       setError(err.message || 'Something went wrong!');
       setIsSubmitting(false);
     } finally {
@@ -92,36 +104,57 @@ const PosCreate = () => {
                     <TextField
                       autoFocus
                       margin="dense"
-                      id="alias"
+                      id="name"
                       label="Name"
                       type="text"
                       fullWidth
-                      inputRef={aliasRef}
+                      inputRef={nameRef}
                       inputProps={{ minLength: 2, maxLength: 50 }}
                       required
                     />
                   <TextField
                     autoFocus
                     margin="dense"
-                    id="email"
-                    label="Email Address"
-                    type="email"
+                    id="phone"
+                    label="phone Address"
+                    type="number"
                     fullWidth
-                    inputRef={emailRef}
+                    inputRef={phoneRef}
                     inputProps={{ minLength: 2, maxLength: 50 }}
                     required
                   />
                   <TextField
                     autoFocus
                     margin="dense"
-                    id="serial_number"
+                    id="address"
                     label="Serial Number"
-                    type="serial_number"
+                    type="address"
                     fullWidth
-                    inputRef={serial_numberRef}
+                    inputRef={addressRef}
                     inputProps={{ minLength: 6, maxLength: 50 }}
                     required
                   />
+
+                  {/* Create image */}
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    id="image"
+                    label="Image"
+                    type="file"
+                    fullWidth
+                    inputRef={imageRef}
+                    inputProps={{ minLength: 6, maxLength: 50 }}
+                    required
+                    onChange={showPreviewImage}
+                  />
+                  {imagePreview && (
+                    <img
+                      src={imagePreview}
+                      alt="Preview"
+                      style={{ height: '100px', width: '100px' }}
+                    />
+                  )}
     
                 </DialogContent>
                 <DialogActions>
@@ -143,4 +176,4 @@ const PosCreate = () => {
   )
 };
 
-export default PosCreate;
+export default CreateBranch;

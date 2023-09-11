@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Box, Button, TextField, Typography } from '@mui/material';
 import { toast } from 'react-toastify';
+import '../../Common.scss';
 
 const UpdatePos = () => {
   const navigate = useNavigate();
@@ -79,11 +80,12 @@ const UpdatePos = () => {
 
   useEffect(() => {
     console.log('Component re-rendered.');
+    console.log('formData:', formData);
     getPOS();
   }, []);
 
   return (
-    <div className="wrapper">
+    <div className="wrapper main">
       <Box width="80%" sx={{ margin: '0 auto' }}>
         <Typography variant="h5" sx={{ fontWeight: 600 }}>
           Edit POS Machine
@@ -98,7 +100,7 @@ const UpdatePos = () => {
             label="Alias"
             inputProps={{ shrink: 'true' }}
             placeholder="Enter Name"
-            value={formData.alias}
+            value={formData?.alias || ''}
             onChange={handleFieldChange}
           />
 
@@ -111,7 +113,7 @@ const UpdatePos = () => {
             label="Email"
             inputProps={{ shrink: 'true' }}
             placeholder="Enter Email"
-            value={formData.email}
+            value={formData?.email || ''}
             onChange={handleFieldChange}
           />
 
@@ -124,7 +126,7 @@ const UpdatePos = () => {
             label="Serial Number"
             inputProps={{ shrink: 'true' }}
             placeholder="Enter Serial Number"
-            value={formData.serial_number}
+            value={formData?.serial_number || ''}
             onChange={handleFieldChange}
           />
 

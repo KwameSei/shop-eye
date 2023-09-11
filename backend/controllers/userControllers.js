@@ -6,6 +6,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
 import jsonwebtoken from 'jsonwebtoken';
+import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -312,8 +313,19 @@ export const loginUser = async (req, res) => {
 
 // Fetch user profile
 export const getUserProfile = async (req, res) => {
+  const userId = req.params.id;
+
+  // Check if userId is a valid ObjectId
+  if (!mongoose.Types.ObjectId.isValid(userId)) {
+    res.status(400).json({
+      success: false,
+      status: 400,
+      message: 'Invalid user id'
+    })
+  }
+
   try {
-    const user = await User.findById(req.params.id);
+    const user = await User.findById(userId);
     if (user) {
       const { _id, name, email, phone, address, level, avatar } = user;
       res.status(200).json({
