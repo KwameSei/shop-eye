@@ -18,6 +18,8 @@ import {
   UpdatePos,
   CreateBranch,
   DisplayBranch,
+  CreateSupplier,
+  DisplaySupplier,
 } from './widgets';
 import { setLogin } from './State/auth/authSlice';
 
@@ -84,6 +86,8 @@ function App() {
           <Route path='/create-branch' element={<ProtectedRoute><CreateBranch /></ProtectedRoute>} />
           <Route path='/display-branches' element={<ProtectedRoute><DisplayBranch /></ProtectedRoute>} />
           <Route path='/update-pos/:id' element={<UpdatePos />} />
+          <Route path='/create-supplier' element={<ProtectedRoute><CreateSupplier /></ProtectedRoute>} />
+          <Route path='/display-suppliers' element={<ProtectedRoute><DisplaySupplier /></ProtectedRoute>} />
           <Route path='/account-activation/:token' element={<AccountActivation />} />
             {/* <Route element={<Dashboard />}  /> */}
           {/* </Route> */}

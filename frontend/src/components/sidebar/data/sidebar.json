@@ -151,9 +151,31 @@
       ]
     },
     {
-      "title": "Menu 2",
-      "icon": "BugReport",
-      "path": "/menu2"
+      "title": "Supplier Management",
+      "icon": "Person",
+      "childrens": [
+        {
+          "title": "Create Supplier",
+          "path": "/create-supplier"
+        },
+        {
+          "title": "Get All Suppliers",
+          "path": "/display-suppliers"
+        },
+        {
+          "title": "Update POS",
+          "path": "/update-pos/:id"
+        },
+        {"title": "Branches"},
+        {
+          "title": "Create Branch",
+          "path": "/create-branch"
+        },
+        {
+          "title": "Get All Branches",
+          "path": "/display-branches"
+        }
+      ]
     },
     {
       "title": "Menu 3",

@@ -68,20 +68,6 @@ export const registerUser = async (req, res) => {
       { expiresIn: process.env.JWT_EXPIRES_IN}
     );
 
-    // const emailData = {
-    //   subject: `Account activation link`,
-    //   message: `
-    //     <h1>Please use the following link to activate your account</h1>
-    //     <p>${process.env.CLIENT_URL}/activate-account/${token}</p>
-    //     <hr />
-    //     <p>This email may contain sensitive information</p>
-    //     <p>${process.env.CLIENT_URL}</p>
-    //   `,
-    //   send_to: email,
-    //   sent_from: process.env.EMAIL_USER,
-    //   reply_to: process.env.EMAIL_USER,
-    // };
-
     const subject = 'Account activation link';
     const message = `
         <h1>Please use the following link to activate your account</h1>
@@ -323,7 +309,6 @@ export const getUserProfile = async (req, res) => {
       message: 'Invalid user id'
     })
   }
-
   try {
     const user = await User.findById(userId);
     if (user) {

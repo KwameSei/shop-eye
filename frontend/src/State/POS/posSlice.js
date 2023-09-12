@@ -3,8 +3,10 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   pos: null,
   branch: null,
+  supplier: null,
   poss: [],
   branches: [],
+  suppliers: [],
   isFetching: false,
   isError: false
 };
@@ -37,7 +39,21 @@ const posSlice = createSlice({
     },
     deleteBranch: (state, action) => {
       state.branch = null;
+    },
+
+    getSupplier: (state, action) => {
+      state.supplier = action.payload;
+    },
+    setSupplier: (state, action) => {
+      state.supplier = action.payload;
+    },
+    setSuppliers: (state, action) => {
+      state.suppliers = action.payload.suppliers;
+    },
+    deleteSupplier: (state, action) => {
+      state.supplier = null;
     }
+
   }
 })
 
@@ -50,6 +66,10 @@ export const {
   setBranch,
   setBranches,
   deleteBranch,
+  getSupplier,
+  setSupplier,
+  setSuppliers,
+  deleteSupplier
 } = posSlice.actions;
 
 export default posSlice.reducer;

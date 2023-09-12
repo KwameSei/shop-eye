@@ -8,6 +8,7 @@ import errorHandler from './middlewares/errorMiddleware.js';
 import userRoutes from './routes/userRoutes.js';
 import posRoutes from './routes/posRoutes.js';
 import branchRoutes from './routes/branchRoutes.js';
+import supplierRoutes from './routes/supplierRoutes.js';
 
 dotenv.config();
 
@@ -24,6 +25,7 @@ app.use(bodyParser.json())
 app.use('/api/users', userRoutes);
 app.use('/api/pos', posRoutes);
 app.use('/api/branches', branchRoutes);
+app.use('/api/suppliers', supplierRoutes);
 
 // Error Middleware
 app.use(errorHandler);
