@@ -1,9 +1,23 @@
 import mongoose from 'mongoose';
 import Pos from '../models/posModel.js';
+import Branch from '../models/pos_branchModel.js';
 
 export const createPos = async (req, res) => {
   try {
     let pos = await Pos.create(req.body);
+
+    // Update associated branches with this POS machine's ObjectId
+    const { branchIds } = req.body;
+    if (branchIds && Array.isArray(branchIds)) {
+      const updatePromises = branchIds.map(async (branchId) => {
+        const branch = await Branch.findById(branchId);
+        if (branch) {
+          branch.pos_machine.push(pos._id);
+          await branch.save();
+        }
+      });
+      await Promise.all(updatePromises);
+    }
     
     res.status(200).json({
       success: true,
@@ -61,10 +75,10 @@ export const getSinglePos = async (req, res) => {
 
 // Update a POS
 export const updatePos = async (req, res) => {
-  const posId = req.params.id;
+  const posId = mongoose.Types.ObjectId(req.params.id);
 
   // Check if posId is a valid ObjectId
-  if (!mongoose.Types.ObjectId.isValid(posId)) {
+  if (!posId) {
     return res.status(400).json({
       success: false,
       status: 400,
@@ -91,6 +105,18 @@ export const updatePos = async (req, res) => {
     pos.alias = alias || pos.alias;
     pos.serial_number = serial_number || pos.serial_number;
     pos.email = email || pos.email;
+
+    // Update associated branches
+    if (branchIds && Array.isArray(branchIds)) {
+      const updatePromises = branchIds.map(async (branchId) => {
+        const branch = await Branch.findById(branchId);
+        if (branch) {
+          branch.pos_machine.push(pos._id);
+          await branch.save();
+        }
+      });
+      await Promise.all(updatePromises);
+    }
 
     // Save the POS
     const updatedPos = await pos.save();

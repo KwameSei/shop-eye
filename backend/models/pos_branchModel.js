@@ -5,12 +5,17 @@ const phoneRegex = /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4
 const branchSchema = new mongoose.Schema({
   name: {
     type: String,
+    trim: true,
     required: true,
   },
-  address: String,
+  address: {
+    type: String,
+    trim: true,
+  },
   phone: {
     type: String,
     match: [phoneRegex, 'Please fill a valid phone number'],
+    trim: true,
     required: [true, 'User phone number required']
   },
   image: {
@@ -19,8 +24,13 @@ const branchSchema = new mongoose.Schema({
   },
   image_mimetype: {
     type: String,
-    required: true,
-  }
+  },
+  pos_machine:[
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'POS'
+    }
+  ],
 },
   { timestamps: true }
 );

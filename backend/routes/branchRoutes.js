@@ -5,7 +5,8 @@ import {
   getSingleBranch, 
   createBranch, 
   updateBranch, 
-  deleteBranch 
+  deleteBranch,
+  getPosById,
 } from '../controllers/branchControllers.js';
 
 const router = express.Router();
@@ -13,6 +14,7 @@ const router = express.Router();
 router.post('/create-branch', upload.single('image'), createBranch);
 router.get('/get-branches', getAllBranches);
 router.get('/branch/:id', getSingleBranch);
+router.get('/:branchId/pos-machines', getPosById)
 router.put('/branch/:id', upload.single('image'), updateBranch);
 router.delete('/branch/:id', deleteBranch);
 
