@@ -47,12 +47,10 @@ const UpdatePos = () => {
       const response = await fetch(`${serverURL}/api/pos/update-pos/${id}`, {
         method: 'PUT',
         headers: {
-          Authorization: `Bearer ${token}`, // Make sure to provide the token
-        },
-        body: JSON.stringify(formData),
-        headers: {
+          Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
+        body: JSON.stringify(formData),
       });
 
       const data = await response.json();
