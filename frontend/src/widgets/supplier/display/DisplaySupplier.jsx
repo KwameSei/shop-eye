@@ -14,9 +14,11 @@ const DisplaySupplier = () => {
   const supplier = useSelector((state) => state.pos.supplier);
   const token = useSelector((state) => state.auth.token);
 
+  const serverURL = import.meta.env.VITE_SERVER_URL;
+
   const fetchSupplier = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/suppliers/get-all-suppliers", {
+      const res = await fetch(`${serverURL}/api/suppliers/get-all-suppliers`, {
         method: "GET",
         headers: {
           authorization: `Bearer ${token}`,

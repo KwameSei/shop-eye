@@ -31,9 +31,11 @@ const CreateBranch = () => {
     console.log('posMachines:', posMachines);
   }, [selectedPosMachines, posMachines]);
 
+  const serverURL = import.meta.env.VITE_SERVER_URL;
+
   useEffect(() => {
     // Fetch available POS machines
-    axios.get('http://localhost:5000/api/branches/get-branches')
+    axios.get(`${serverURL}/api/branches/get-branches`)
       .then((response) => {
         const posOptions = response.data.posMachines.map((pos) => ({
           value: pos._id,
@@ -69,7 +71,7 @@ const CreateBranch = () => {
       setIsSubmitting(true);
       setError(null);
 
-      const response = await axios.post('http://localhost:5000/api/branches/create-branch', formData, {
+      const response = await axios.post(`${serverURL}/api/branches/create-branch`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${token}`,

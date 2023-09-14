@@ -41,6 +41,8 @@ const Profile = () => {
   const token = useSelector((state) => state.auth.token);
   const user = useSelector((state) => state.auth.user);
 
+  const serverURL = import.meta.env.VITE_SERVER_URL;
+
   console.log("user:", user);
   console.log("loading:", loading);
   console.log("token:", token);  // parse the json payload and return user id
@@ -88,7 +90,7 @@ const Profile = () => {
   const fetchUser = async () => {
     setLoading(true);
     try {
-      const response = await fetch(`http://localhost:5000/api/users/get-profile/${id}`, {
+      const response = await fetch(`${serverURL}/api/users/get-profile/${id}`, {
       method: "GET",  
       headers: {
           Authorization: `Bearer ${token}`,
@@ -137,7 +139,7 @@ const Profile = () => {
   const formSubmit = async (formData) => {
     setLoading(true);
     try {
-      const response = await fetch(`http://localhost:5000/api/users/update-profile/${id}`,
+      const response = await fetch(`${serverURL}/api/users/update-profile/${id}`,
       {
         method: "PUT",
         headers: {

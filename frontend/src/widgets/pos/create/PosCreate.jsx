@@ -31,11 +31,13 @@ const PosCreate = () => {
       serial_number
     };
 
+    const serverURL = import.meta.env.VITE_SERVER_URL;
+
     try {
       setIsSubmitting(true);
       setError(null);
 
-      const response = await fetch('http://localhost:5000/api/pos/create-pos', {
+      const response = await fetch(`${serverURL}/api/pos/create-pos`, {
         method: 'POST',
         headers: {
           authorization: `Bearer ${token}`,

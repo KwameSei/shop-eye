@@ -17,11 +17,13 @@ const UpdatePos = () => {
 
   const token = useSelector((state) => state.auth.token);
 
+  const serverURL = import.meta.env.VITE_SERVER_URL;
+
   // Function to fetch the POS data by ID
   const getPOS = async () => {
     setLoading(true);
     try {
-      const response = await fetch(`http://localhost:5000/api/pos/get-single-pos/${id}`, {
+      const response = await fetch(`${serverURL}/api/pos/get-single-pos/${id}`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`, // Make sure to provide the token
@@ -42,7 +44,7 @@ const UpdatePos = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await fetch(`http://localhost:5000/api/pos/update-pos/${id}`, {
+      const response = await fetch(`${serverURL}/api/pos/update-pos/${id}`, {
         method: 'PUT',
         headers: {
           Authorization: `Bearer ${token}`, // Make sure to provide the token

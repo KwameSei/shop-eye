@@ -14,9 +14,11 @@ const DisplayBranch = () => {
   const branch = useSelector((state) => state.pos.branch);
   const token = useSelector((state) => state.auth.token);
 
+  const serverURL = import.meta.env.VITE_SERVER_URL;
+
   const fetchBranch = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/branches/get-branches", {
+      const res = await fetch(`${serverURL}/api/branches/get-branches`, {
         method: "GET",
         headers: {
           authorization: `Bearer ${token}`,

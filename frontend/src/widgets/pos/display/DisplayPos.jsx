@@ -15,6 +15,8 @@ const DisplayPos = () => {
   // const [pos, setPos] = useState([]); 
   const token = useSelector((state) => state.auth.token);
 
+  const serverURL = import.meta.env.VITE_SERVER_URL;
+
   // useEffect(() => {
   //   if (localStorage.getItem('token') === null) {
   //     navigate('/login');
@@ -24,7 +26,7 @@ const DisplayPos = () => {
 
   const fetchPos = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/pos/get-pos", {
+      const res = await fetch(`${serverURL}/api/pos/get-pos`, {
         method: "GET",
         headers: {
           authorization: `Bearer ${token}`,

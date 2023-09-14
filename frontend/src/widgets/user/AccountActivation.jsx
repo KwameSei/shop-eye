@@ -40,8 +40,10 @@ const AccountActivation = () => {
   const auth = useSelector(state => state.auth);
   const [activationResult, setActivationResult] = useState('');
 
+  const serverURL = import.meta.env.VITE_SERVER_URL;
+
   const getActivation = async () => {
-    const response = await fetch(`http://localhost:5000/api/users/activate-account/${token}`, {
+    const response = await fetch(`${serverURL}/api/users/activate-account/${token}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

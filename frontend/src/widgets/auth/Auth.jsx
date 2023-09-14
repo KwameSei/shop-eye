@@ -23,6 +23,8 @@ const Auth = ({ onSignIn }) => {
   const user = useSelector((state) => state.user);
   const token = useSelector((state) => state.token);
 
+  const serverURL = import.meta.env.VITE_SERVER_URL;
+
   // Use useEffect to change the title of the page
   useEffect(() => {
     setTitle(isRegister ? 'Register' : 'Login');
@@ -45,7 +47,7 @@ const Auth = ({ onSignIn }) => {
       setIsSubmitting(true);
       setError(null);
 
-      const response = await fetch('http://localhost:5000/api/users/register', {
+      const response = await fetch(`${serverURL}/api/users/register`, {
         method: 'POST',
         headers: {
           authorization: `Bearer ${token}`,
@@ -102,7 +104,7 @@ const Auth = ({ onSignIn }) => {
       setIsSubmitting(true);
       setError(null);
     try {
-      const response = await fetch('http://localhost:5000/api/users/login', {
+      const response = await fetch(`${serverURL}/api/users/login`, {
         method: 'POST',
         headers: {
           authorization: `Bearer ${token}`,
