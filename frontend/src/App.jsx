@@ -76,7 +76,7 @@ function App() {
         <Routes>
           <Route path='/login' element={<Auth onSignIn={handleSignIn} />} />
           {/* <Route path='/register' element={<Auth onSignIn={handleSignIn} />} /> */}
-          <Route path='/' element={<Login />} />
+          <Route path='/' element={<Auth />} />
           <Route path='/profile/:id' element={<Profile />} />
           {/* <SecuredRoute path="/dashboard" element={<Dashboard />} isSignedIn={isSignedIn} /> */}
           {/* <Route path="/dashboard" element={ <ProtectedRoute isSignedIn={isSignedIn}> <Dashboard /> </ProtectedRoute> } /> */}
