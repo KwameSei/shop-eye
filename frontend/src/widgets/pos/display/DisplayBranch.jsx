@@ -100,6 +100,7 @@ const DisplayBranch = () => {
                         <th>Branch Name</th>
                         <th>Phone</th>
                         <th>Address</th>
+                        <th>POS</th>
                         <th>Created At</th>
                         <th>Action</th>
                       </tr>
@@ -121,6 +122,15 @@ const DisplayBranch = () => {
                               <td>{data.name}</td>
                               <td>{data.phone}</td>
                               <td>{data.address}</td>
+                              <td>
+                                {data.pos_machine.map(value => {
+                                  return (
+                                    <div key={value._id}>
+                                      <p>{value.alias + ","}</p>
+                                    </div>
+                                  )
+                                })}
+                              </td>
                               <td>{data.createdAt}</td>
                               <td>
                                 <Link to={`/update-branch/${data._id}`}>

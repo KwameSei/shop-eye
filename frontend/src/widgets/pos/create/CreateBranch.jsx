@@ -17,10 +17,12 @@ const CreateBranch = () => {
   const [posMachines, setPosMachines] = useState([]);
   const [imagePreview, setImagePreview] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const nameRef = useRef();
-  const phoneRef = useRef();
-  const addressRef = useRef();
-  const imageRef = useRef();
+  const [selectedOptions, setSelectedOptions] = useState([]); // For the multiselect dropdown
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [address, setAddress] = useState('');
+  const [image, setImage] = useState(null);
+
 
   const user = useSelector((state) => state.user);
   const token = useSelector((state) => state.token);
@@ -65,7 +67,7 @@ const CreateBranch = () => {
     formData.append('address', address);
     formData.append('phone', phone);
     formData.append('image', image);
-    formData.append('pos_machines', selectedPosMachines.map((pos) => pos.value).join(','));
+    formData.append('pos_machine', selectedPosMachines.map((pos) => pos.value).join(','));
     
     try {
       setIsSubmitting(true);
@@ -119,7 +121,8 @@ const CreateBranch = () => {
                     label="Name"
                     type="text"
                     fullWidth
-                    inputRef={nameRef}
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
                     inputProps={{ minLength: 2, maxLength: 50 }}
                     required
                   />
@@ -127,10 +130,11 @@ const CreateBranch = () => {
                     autoFocus
                     margin="dense"
                     id="phone"
-                    label="Phone Address"
+                    label="Phone"
                     type="number"
                     fullWidth
-                    inputRef={phoneRef}
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
                     inputProps={{ minLength: 2, maxLength: 50 }}
                     required
                   />
@@ -138,24 +142,24 @@ const CreateBranch = () => {
                     autoFocus
                     margin="dense"
                     id="address"
-                    label="Serial Number"
+                    label="Address"
                     type="address"
                     fullWidth
-                    inputRef={addressRef}
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
                     inputProps={{ minLength: 6, maxLength: 50 }}
                     required
                   />
                   {/* Create image */}
-                  <TextField
-                    autoFocus
-                    margin="dense"
-                    id="image"
+                  <input
                     type="file"
-                    fullWidth
-                    inputRef={imageRef}
-                    inputProps={{ minLength: 6, maxLength: 50 }}
-                    required
-                    onChange={showPreviewImage}
+                    name='image'
+                    accept="image/*"
+                    onChange={(e) => {
+                      const file = e.target.files[0];
+                      setImage(file);
+                      showPreviewImage(e);
+                    }}
                   />
                   {imagePreview && (
                     <img
@@ -172,6 +176,7 @@ const CreateBranch = () => {
                     classNamePrefix="select"
                     value={selectedPosMachines}
                     onChange={(selectedOptions) => setSelectedPosMachines(selectedOptions)}
+                    // onChange={(selectedOptions) => setSelectedPosMachines(selectedOptions)}
                   />
                 </DialogContent>
                 <DialogActions>

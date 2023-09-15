@@ -2,6 +2,94 @@ import cloudinary from 'cloudinary';
 import Branch from '../models/pos_branchModel.js';
 import Pos from '../models/posModel.js';
 
+// export const createBranch = async (req, res) => {
+//   const { name, address, phone } = req.body;
+//   const image = req.file ? req.file.path : '';
+
+//   if (!image) {
+//     return res.status(400).json({
+//       status: 400,
+//       success: false,
+//       message: 'Please upload an image'
+//     });
+//   }
+
+//   console.log(req.body);
+
+//   try {
+//     const result = await cloudinary.v2.uploader.upload(image, {
+//       folder: 'POS/branches',
+//       width: 150,
+//       crop: 'scale',
+//       use_filename: true,
+//       resource_type: 'image'
+//     });
+
+//     console.log(result);
+
+//     // Initialize an empty array to hold the POS machines
+//     let pos_machine = [];
+
+//     if (req.body.pos_machine) {
+//       if (typeof req.body.pos_machine === 'string') {
+//         // Convert the string to an array if it's a single value
+//         pos_machine = [req.body.pos_machine];
+//       } else if (Array.isArray(req.body.pos_machine)) {
+//         // Use the provided array as-is
+//         pos_machine = req.body.pos_machine;
+//       } else {
+//         // Handle other cases or set a default value
+//         // You can log an error or handle this based on your requirements
+//         console.error('Invalid pos_machine data:', req.body.pos_machine);
+//       }
+//     }
+
+//     const posMachineIds = pos_machine.map((pos) => pos._id);
+
+//     const newBranch = await Branch.create({
+//       name,
+//       address,
+//       phone,
+//       image: {
+//         url: result.secure_url,
+//         public_id: result.public_id
+//       },
+//       image_mimetype: req.file.mimetype,
+//       pos_machine: posMachineIds
+//     });
+
+//     console.log(newBranch);
+
+//     const pos = await Pos.find().where('_id').in(posMachineIds).exec(); // Find all the pos machines in the array
+
+//     // Create an array of references to the POS machines
+//     const posReferences = pos.map((posMachine) => posMachine._id);
+
+//     newBranch.pos_machine = posReferences; // Add the pos machines to the branch
+//     await newBranch.save(); // Save the branch
+
+//     // Fetch all branches and return them to the client
+//     const branches = await Branch.find().sort({ createdAt: -1 });
+
+//     res.status(201).json({
+//       status: 201,
+//       success: true,
+//       message: 'Branch created successfully',
+//       newBranch,
+//       branches
+//     });
+//     console.log(newBranch);
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).json({
+//       status: 500,
+//       success: false,
+//       message: 'Internal server error',
+//       error: error.message
+//     });
+//   }
+// };
+
 export const createBranch = async (req, res) => {
   const { name, address, phone } = req.body;
   const image = req.file.path;
@@ -10,11 +98,9 @@ export const createBranch = async (req, res) => {
     return res.status(400).json({
       status: 400,
       success: false,
-      message: 'Please upload an image'
-    })
+      message: 'Please upload an image',
+    });
   }
-
-  console.log(req.body);
 
   try {
     const result = await cloudinary.v2.uploader.upload(image, {
@@ -22,48 +108,26 @@ export const createBranch = async (req, res) => {
       width: 150,
       crop: 'scale',
       use_filename: true,
-      resource_type: 'image'
+      resource_type: 'image',
     });
 
-    console.log(result);
+    // Parse selectedPosMachines as an array of IDs
+    const selectedPosMachines = Array.isArray(req.body.pos_machine)
+      ? req.body.pos_machine
+      : [req.body.pos_machine];
 
-    // Initialize an empty array to hold the POS machines
-    let pos_machine = [];
-
-    // Check if the POS machines are more than one
-    if (req.body.pos_machine.length > 1) {
-      // Loop through the array of POS machines
-      for (let i = 0; i < req.body.pos_machine.length; i++) {
-        // Push each POS machine to the pos_machine array
-        pos_machine.push(req.body.pos_machine[i]);
-      }
-    } else {
-      // Push the single POS machine to the pos_machine array
-      pos_machine.push(req.body.pos_machine);
-    }
-
+    // Create the branch with the image URL and selected POS machines
     const newBranch = await Branch.create({
       name,
       address,
       phone,
       image: {
         url: result.secure_url,
-        public_id: result.public_id
+        public_id: result.public_id,
       },
-      image_mimetype: req.file.mimetype,
-      pos_machine
+      image_mimetype: image.mimetype,
+      pos_machine: selectedPosMachines,
     });
-
-    let pos_arr = pos_machine.split(','); // Convert the string to an array
-    const pos = await Pos.find().where('_id').in(pos_arr).exec(); // Find all the pos machines in the array
-
-    console.log(newBranch);
-
-    // Create an array of references to the POS machines
-    const posReferences = pos.map((posMachine) => posMachine._id);
-
-    newBranch.pos_machine = posReferences; // Add the pos machines to the branch
-    await newBranch.save(); // Save the branch
 
     // Fetch all branches and return them to the client
     const branches = await Branch.find().sort({ createdAt: -1 });
@@ -73,48 +137,7 @@ export const createBranch = async (req, res) => {
       success: true,
       message: 'Branch created successfully',
       newBranch,
-      branches
-    });
-    console.log(newBranch);
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({
-      status: 500,
-      success: false,
-      message: 'Internal server error',
-      error: error.message
-    });
-  }
-};
-
-export const getAllBranches = async (req, res) => {
-  // try {
-  //   const branches = await Branch.find().populate('pos_machine').sort({ createdAt: -1 });
-
-  //   res.status(200).json({
-  //     status: 200,
-  //     success: true,
-  //     message: 'All branches retrieved successfully',
-  //     branches
-  //   });
-  // } catch (error) {
-  //   console.log(error);
-  //   res.status(500).json({
-  //     status: 500,
-  //     success: false,
-  //     message: 'Internal server error',
-  //     error: error.message
-  //   });
-  // }
-
-  try {
-    const posMachines = await Pos.find({}, 'alias'); // Only select the 'alias' field
-
-    res.status(200).json({
-      status: 200,
-      success: true,
-      message: 'All POS machines retrieved successfully',
-      posMachines,
+      branches,
     });
   } catch (error) {
     console.error(error);
@@ -125,6 +148,46 @@ export const getAllBranches = async (req, res) => {
       error: error.message,
     });
   }
+};
+
+export const getAllBranches = async (req, res) => {
+  try {
+    const branches = await Branch.find().populate('pos_machine').sort({ createdAt: -1 });
+
+    res.status(200).json({
+      status: 200,
+      success: true,
+      message: 'All branches retrieved successfully',
+      branches
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      status: 500,
+      success: false,
+      message: 'Internal server error',
+      error: error.message
+    });
+  }
+
+  // try {
+  //   const posMachines = await Pos.find({}, 'alias'); // Only select the 'alias' field
+
+  //   res.status(200).json({
+  //     status: 200,
+  //     success: true,
+  //     message: 'All POS machines retrieved successfully',
+  //     posMachines,
+  //   });
+  // } catch (error) {
+  //   console.error(error);
+  //   res.status(500).json({
+  //     status: 500,
+  //     success: false,
+  //     message: 'Internal server error',
+  //     error: error.message,
+  //   });
+  // }
 };
 
 // Get a single branch
