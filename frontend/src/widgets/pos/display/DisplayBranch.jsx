@@ -87,11 +87,15 @@ const DisplayBranch = (props) => {
       accessor: "image",
       Cell: (props) => {
         return (
-          <img
-            src={props.value.url}
-            alt="Branch Image"
-            style={{ width: "50px", height: "50px" }}
-          />
+          props.value && props.value.url ? (
+            <img
+              src={props.value.url}
+              alt="Branch Image"
+              style={{ width: "50px", height: "50px" }}
+            />
+          ) : (
+            <p>No image available</p>
+          )
         );
       }
     },
@@ -111,7 +115,7 @@ const DisplayBranch = (props) => {
       Header: "POS",
       accessor: "pos_machine",
       Cell: (props) => {
-        return (
+        props.value && Array.isArray(props.value) ? (
           <div>
             {props.value.map((value) => {
               return (
@@ -121,7 +125,9 @@ const DisplayBranch = (props) => {
               );
             })}
           </div>
-        );
+        ) : (
+          <p>No data available</p> // Display a message when props.value is null or not an array
+        )
       },
     },
     {
@@ -149,7 +155,11 @@ const DisplayBranch = (props) => {
 
   return (
     <div className="display-branch main">
-      <DisplayTable columns={columns} data={branches} deleteFunction={confirmDelete} />
+      {branches ? (
+  <DisplayTable columns={columns} data={branches} deleteFunction={confirmDelete} />
+) : (
+  <p>Loading data...</p>
+)}
     </div>
   );
 
