@@ -1,7 +1,7 @@
 const Items = [
   {
     title: 'Home',
-    url: '/',
+    url: '/home',
   },
   {
     title: 'Dashboard',

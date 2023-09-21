@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { ArrowDropDown, ArrowDropUp, Close, Person, Menu } from "@mui/icons-material";
+import { ArrowDropDown, ArrowDropUp, Close, Person, Menu, Search, Compare, Favorite, CardTravel, ShoppingBag, ShoppingBagOutlined, ShoppingCartCheckout, Message } from "@mui/icons-material";
 import swal from "sweetalert";
 
 import { Navbar } from "../index";
 import "./Header.scss";
+import { Badge, IconButton } from "@mui/material";
 
 // const Header = () => {
 //   const navigate = useNavigate();
@@ -166,15 +167,95 @@ import "./Header.scss";
 const Header = () => {
 
   return (
-    <header>
-      <div className="nav-container">
-        <a href="/" className="logo">
-          <h3>Shop Eye</h3>
-        </a>
+    <div>
+      <header>
+        <div className="nav-container">
+          <a href="/" className="logo">
+            <h3>Shop Eye</h3>
+          </a>
+          <Navbar />
+        </div>
+      </header>
+      <div className="second-layer">
+        <div className="second-layer-icons">
+          <div className="text-icons icons-left">
+            <Link className="link">
+              <Compare className="icon" />
+              <p>
+                Compare <br /> Products
+              </p>
+            </Link>
+          </div>
+          <div className="text-icons icons-left">
+            <Link className="link">
+              <Favorite className="icon" />
+              <p>
+                Favourite <br /> Products
+              </p>
+            </Link>
+          </div>
+          <div className="text-icons icons-left">
+            <Link className="link">
+              <Person className="icon" />
+              <p>
+                Account <br /> Settings
+              </p>
+            </Link>
+          </div>
+          
+          
+        </div>
 
-        <Navbar />
+        <div className="container">
+            <div className="search">
+              <input
+                type="text"
+                className="search-term"
+                placeholder="What are you looking for?"
+                aria-label="What are you looking for?"
+              />
+              <span className="searchButton">
+                <Search />
+              </span>
+            </div>
+           </div>
+           
+        <div className="text-icons icons-right">
+            <Link className="link cart-badge">
+              <Badge badgeContent={1} color="error" sx={{
+                '& .MuiBadge-badge': {
+                  right: -6,
+                  top: 4,
+                  // border: `2px solid ${'white'}`,
+                  // padding: '0 4px',
+                },
+              }}>
+                <ShoppingCartCheckout color="action" className="badge-icon" />
+              </Badge>
+              <p>
+                ₵ 0.00
+              </p>
+            </Link>
+          </div>
+          <div className="text-icons icons-right">
+            <Link className="link cart-badge">
+              <Badge badgeContent={1} color="warning" sx={{
+                '& .MuiBadge-badge': {
+                  right: -6,
+                  top: 4,
+                  // border: `2px solid ${'white'}`,
+                  // padding: '0 4px',
+                },
+              }}>
+                <Message color="action" className="badge-icon" />
+              </Badge>
+              <p>
+                Messages
+              </p>
+            </Link>
+          </div>
       </div>
-    </header>
+    </div>
   );
 };
 

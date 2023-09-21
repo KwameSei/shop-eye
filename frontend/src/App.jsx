@@ -20,6 +20,8 @@ import {
   DisplayBranch,
   CreateSupplier,
   DisplaySupplier,
+  CreateProduct,
+  CreateProductCategory
 } from './widgets';
 import { setLogin } from './State/auth/authSlice';
 
@@ -79,7 +81,7 @@ function App() {
           <Route path='/' element={<ProtectedRoute><Auth /></ProtectedRoute>} />
           <Route path='/profile/:id' element={<Profile />} />
           {/* <SecuredRoute path="/dashboard" element={<Dashboard />} isSignedIn={isSignedIn} /> */}
-          {/* <Route path="/dashboard" element={ <ProtectedRoute isSignedIn={isSignedIn}> <Dashboard /> </ProtectedRoute> } /> */}
+          <Route path="/home" element={ <ProtectedRoute> <Home /> </ProtectedRoute> } />
           <Route path='/dashboard' element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
           <Route path='/create-pos' element={<PosCreate />} />
           <Route path='/display-pos' element={<DisplayPos />} />
@@ -88,6 +90,8 @@ function App() {
           <Route path='/update-pos/:id' element={<UpdatePos />} />
           <Route path='/create-supplier' element={<ProtectedRoute><CreateSupplier /></ProtectedRoute>} />
           <Route path='/display-suppliers' element={<ProtectedRoute><DisplaySupplier /></ProtectedRoute>} />
+          <Route path='/create-product' element={<ProtectedRoute><CreateProduct /></ProtectedRoute>} />
+          <Route path='/create-product-category' element={<ProtectedRoute><CreateProductCategory /></ProtectedRoute>} />
           <Route path='/account-activation/:token' element={<AccountActivation />} />
             {/* <Route element={<Dashboard />}  /> */}
           {/* </Route> */}

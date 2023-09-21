@@ -1,4 +1,7 @@
 import User from '../models/userModel.js';
+import Cart from '../models/cartModel.js';
+import Order from '../models/orderModel.js';
+import Product from '../models/productModel.js';
 // import Token from '../models/tokenModel.js';
 import sendEmail from '../utils/email.js';
 import cloudinary from 'cloudinary';
@@ -94,56 +97,6 @@ export const registerUser = async (req, res) => {
       message: `Email has been sent to ${email}. Follow the instruction to activate your account`,
       newUser
     })
-    
-    // const { name, email, password } = req.body;
-
-    // // Validate user input
-    // if (!email || !password || !name) {
-    //   res.status(400)
-    //   throw new Error('All fields are required');
-    // }
-
-    // // Check password length
-    // if (password.length < 6) {
-    //   res.status(400)
-    //   throw new Error('Password must be at least 6 characters long');
-    // }
-
-    // // Convert email to lowercase
-    // const emailToLower = email.toLowerCase();
-
-    // // Check if user already exists
-    // const userExists = await User.findOne({ email: emailToLower });
-    // if (userExists) {
-    //   res.status(400)
-    //   throw new Error('User already exists');
-    // }
-
-    // // Encode password
-    // const saltRounds = await bcrypt.genSalt(10);
-    // const hashedPassword = await bcrypt.hash(password, saltRounds);
-
-    // // Create user
-    // const newUser = new User({
-    //   name,
-    //   email: emailToLower,
-    //   password: hashedPassword,
-    // });
-
-    // // Save user to database
-    // const savedUser = await newUser.save();
-
-    // // Create token
-    // const token = jwt.sign({ user: savedUser }, process.env.JWT_SECRET, { expiresIn: '1d' });
-    
-    // const response = {
-    //   _id: savedUser._id,
-    //   name: savedUser.name,
-    //   email: savedUser.email,
-    //   token
-    // };
-
-    // res.status(201).json({ success: true, data: response });
   } catch (error) {
     res.status(400);
     throw new Error(error);
@@ -255,23 +208,6 @@ export const loginUser = async (req, res) => {
         })
       }
     }
-
-    // if (!user) {
-    //   res.status(400)
-    //   throw new Error('User does not exist');
-    // }
-
-    // // Check if password is correct
-    // const correctPassword = await bcrypt.compare(password, user.password);
-    
-    // if (!correctPassword) {
-    //   res.status(400)
-    //   throw new Error('Invalid email or password');
-    // }
-
-    // // Create token
-    // sendTokenResponse(user, 200, res);
-    
   } catch (error) {
     res.status(400)
     throw new Error(error);

@@ -107,6 +107,7 @@ export const updatePos = async (req, res) => {
     pos.email = email || pos.email;
 
     // Update associated branches
+    const { branchIds } = req.body;
     if (branchIds && Array.isArray(branchIds)) {
       const updatePromises = branchIds.map(async (branchId) => {
         const branch = await Branch.findById(branchId);

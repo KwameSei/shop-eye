@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   useFilters,
   useTable,
@@ -8,8 +8,113 @@ import {
   usePagination,
 } from 'react-table'
 
-const DisplayTable = ({ columns, data }) => {
+import { useExportData } from 'react-table-plugins' // plug-in for exporting data to CSV, XLSX, PDF
+import Papa from 'papaparse'  // plug-in for exporting data to CSV
+import * as XLSX from 'xlsx' // plug-in for exporting data to XLSX
+import JsPDF from 'jspdf' // plug-in for exporting data to PDF
+import 'jspdf-autotable'  // plug-in for exporting data to PDF
+
+
+const DisplayTable = ({ columns, data, updateMyData }) => {
   const [filterInput, setFilterInput] = React.useState('')
+  // const [dataRows, setData] = useState(data)
+
+
+  // Editable cell
+  const EditableCell = ({
+    value: initialValue,
+    row: { values },
+    column: { id },
+    updateMyData,
+    skipPageReset,
+  }) => {
+    const [value, setValue] = useState(initialValue)
+
+    const onChange = e => {
+      setValue(e.target.value)
+    }
+
+    const onBlur = () => {
+      updateMyData(values.id, id, value)
+    }
+
+    useEffect(() => {
+      setValue(initialValue)
+    }, [initialValue])
+
+    return <input value={value} onChange={onChange} onBlur={onBlur} />
+  }
+
+  // const updateMyData = (rowIndex, columnId, value) => {
+  //   // We also turn on the flag to not reset the page
+  //   // skipPageResetRef.current = true
+  //   setData(old => old.map((row, index) => {
+  //     if (index === rowIndex) {
+  //       return {
+  //         ...old[rowIndex],
+  //         [columnId]: value,
+  //       }
+  //     }
+  //     return row
+  //   }))
+  // }
+
+  // Default column settings
+  const defaultColumn = {
+    Cell: EditableCell,
+  }
+
+  // Function to handle the search box and filter the table
+  const handleFilterChange = e => {
+    const value = e.target.value || undefined;
+    setFilter("name", value);
+    setFilterInput(value);
+  };
+
+  // Function to export data to CSV and create a file
+  const getExportFile = ({ columns, data, fileType, fileName }) => {
+    if (fileType === "csv") {
+      // CSV example
+      const headerNames = columns.map((col) => col.exportValue);
+      const csvString = Papa.unparse({ fields: headerNames, data });
+      return new Blob([csvString], { type: "text/csv" });
+    } else if (fileType === "xlsx") {
+      // XLSX example
+      const header = columns.map((c) => c.exportValue);
+      const compatibleData = data.map((row) => {
+        const obj = {};
+        header.forEach((col, index) => {
+          obj[col] = row[index];
+        });
+        return obj;
+      });
+      let wb = XLSX.utils.book_new();
+      let ws1 = XLSX.utils.json_to_sheet(compatibleData, {
+        header,
+      });
+      XLSX.utils.book_append_sheet(wb, ws1, "React Table Data");
+      XLSX.writeFile(wb, `${fileName}.xlsx`);
+    } else if (fileType === "pdf") {
+      // PDF example
+      const headerNames = columns.map((column) => column.exportValue);
+      const doc = new JsPDF();
+      doc.autoTable({
+        head: [headerNames],
+        body: data,
+        styles: { 
+          halign: "left",
+          valign: "center",
+          fontSize: 12,
+        },
+      });
+      doc.save(`${fileName}.pdf`);
+    }
+    // else {
+    //   // Other formats goes here
+    // }
+    return false;
+  };
+
   const {
     getTableProps,
     getTableBodyProps,
@@ -18,6 +123,7 @@ const DisplayTable = ({ columns, data }) => {
     prepareRow,
     setFilter,
     page,
+    exportData,
     canPreviousPage,
     canNextPage,
     pageOptions,
@@ -26,25 +132,23 @@ const DisplayTable = ({ columns, data }) => {
     nextPage,
     previousPage,
     setPageSize,
-    state: { pageIndex, pageSize, groupBy, expanded },
+    selectedFlatRows,
+    state: { pageIndex, pageSize, groupBy, expanded, selectedRowIds },
   } = useTable({
     columns,
     data,
-    initialState: { pageIndex: 2 },
+    defaultColumn,
+    updateMyData,
+    initialState: { pageIndex: 0 },
+    getExportFile,
   }, 
     useFilters,
     useGroupBy,
     useSortBy,
     useExpanded,
     usePagination,
+    useExportData,
   );
-
-  // Function to handle the search box and filter the table
-  const handleFilterChange = e => {
-    const value = e.target.value || undefined;
-    setFilter("name", value);
-    setFilterInput(value);
-  };
 
   return (
     <div>
@@ -127,6 +231,11 @@ const DisplayTable = ({ columns, data }) => {
           {/* PAGINATION FORM */}
       <div className="pagination">
         <form className='form-inline'>
+          <div className='form-group file-export'>
+            <button className='btn btn-primary' onClick={() => exportData('csv', true)}>Export CSV</button>
+            <button className='btn btn-primary' onClick={() => exportData('xlsx', true)}>Export XLSX</button>
+            <button className='btn btn-primary' onClick={() => exportData('pdf', true)}>Export PDF</button>
+          </div>
           <div className="form-group">
             <ul className="pagination">
 

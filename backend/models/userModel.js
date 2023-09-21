@@ -42,6 +42,16 @@ const userSchema = new mongoose.Schema({
     enum: ["user", "admin", "superadmin"],
     default: "user",
   },
+  orders: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Order",
+    },
+  ],
+  cart: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Cart",
+  },
   status: {
     type: String,
     default: "not_active",
@@ -50,21 +60,6 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: "",
   },
-  // phone: {
-  //   type: String,
-  //   required: [true, "Please enter your phone number"],
-  //   unique: true,
-  //   match: [phoneRegex, "Please provide a valid phone number"],
-  // },
-  // photo: {
-  //   type: String,
-  //   required: [true, "Please upload your photo"],
-  //   default: "https://www.flaticon.com/free-icon/user_709722",
-  // },
-  // bio: {
-  //   type: String,
-  //   maxLength: [500, "Bio cannot be more than 500 characters long"],
-  // },
 }, {
   timestamps: true,
 })

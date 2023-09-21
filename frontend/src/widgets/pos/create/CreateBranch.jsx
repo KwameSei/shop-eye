@@ -17,7 +17,6 @@ const CreateBranch = () => {
   const [posMachines, setPosMachines] = useState([]);
   const [imagePreview, setImagePreview] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [selectedOptions, setSelectedOptions] = useState([]); // For the multiselect dropdown
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [address, setAddress] = useState('');
@@ -39,16 +38,62 @@ const CreateBranch = () => {
     // Fetch available POS machines
     axios.get(`${serverURL}/api/branches/get-branches`)
       .then((response) => {
-        const posOptions = response.data.posMachines.map((pos) => ({
-          value: pos._id,
-          label: pos.alias,
-        }));
-        setPosMachines(posOptions);
+        console.log('API Response:', response.data);
+  
+        if (Array.isArray(response.data.branches)) {
+          // Extract the available POS machines from the branches data
+          const posOptions = response.data.branches.flatMap((branch) =>
+            branch.pos_machine.map((pos_machine) => ({
+              value: pos_machine._id,
+              label: pos_machine.alias,
+            }))
+          );
+  
+          console.log('POS Options:', posOptions);
+  
+          setPosMachines(posOptions);
+        } else {
+          console.log('No branches found in the API response.');
+          setPosMachines([]);
+        }
       })
       .catch((error) => {
         console.error('Error fetching POS machines:', error);
       });
-  }, []);
+  }, []);  
+
+  // useEffect(() => {
+  //   // Fetch available products
+  //   axios.get(`${serverURL}/api/branches/get-branches`)
+  //   .then((response) => {
+  //     console.log('API Response:', response.data);
+
+  //     if (Array.isArray(response.data.products)) {
+  //       const productOptions = response.data.products.map((product) => ({
+  //         value: product._id,
+  //         label: product.name,
+  //       }));
+
+  //       const posOptions = response.data.posMachines.map((pos_machine) => ({
+  //         value: pos_machine._id,
+  //         label: pos_machine.alias,
+  //       }));
+
+  //       console.log('Product Options:', productOptions);
+  //       console.log('Category Options:', categoryOptions);
+
+  //       setPosMachines(posOptions);
+  //       setProducts(productOptions);
+  //     } else {
+  //       console.log('No products found in the API response.');
+  //       setCategories([]);
+  //       setProducts([]);
+  //     }
+  //   })
+  //   .catch((error) => {
+  //     console.error('Error fetching Products with Categories:', error);
+  //   });
+  // }, []);
 
   const showPreviewImage = (e) => {
     if (e.target.files && e.target.files[0]) {

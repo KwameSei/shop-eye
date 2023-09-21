@@ -1,4 +1,5 @@
 import cloudinary from 'cloudinary';
+import mongoose from 'mongoose';
 import Branch from '../models/pos_branchModel.js';
 import Pos from '../models/posModel.js';
 
@@ -153,6 +154,15 @@ export const createBranch = async (req, res) => {
 export const getAllBranches = async (req, res) => {
   try {
     const branches = await Branch.find().populate('pos_machine').sort({ createdAt: -1 });
+    const pos = await Pos.find();
+
+    if (!branches || !pos) {
+      return res.status(404).json({
+        status: 404,
+        success: false,
+        message: 'Branches or POS machines not found'
+      });
+    }
 
     res.status(200).json({
       status: 200,

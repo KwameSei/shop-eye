@@ -6,7 +6,7 @@
         {
           "title": "Home",
           "icon": "Home",
-          "path": "/"
+          "path": "/home"
         },
         {
           "title": "About",
@@ -122,6 +122,33 @@
       "title": "Report Bug",
       "icon": "BugReport",
       "path": "/report-bug"
+    },
+    {
+      "title": "Product Management",
+      "icon": "Person",
+      "childrens": [
+        {
+          "title": "Create Product",
+          "path": "/create-product"
+        },
+        {
+          "title": "Create Product Category",
+          "path": "/create-product-category"
+        },
+        {
+          "title": "Update POS",
+          "path": "/update-pos/:id"
+        },
+        {"title": "Branches"},
+        {
+          "title": "Create Branch",
+          "path": "/create-branch"
+        },
+        {
+          "title": "Get All Branches",
+          "path": "/display-branches"
+        }
+      ]
     },
     {
       "title": "POS Management",
