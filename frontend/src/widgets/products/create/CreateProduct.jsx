@@ -23,11 +23,12 @@ const CreateProduct = () => {
   const [unit_price, setUnitPrice] = useState('');
   const [carton_price, setCartonPrice] = useState('');
   const [carton_size, setCartonSize] = useState('');
+  const [slug, setSlug] = useState('');
   const [image, setImage] = useState(null);
 
 
   const user = useSelector((state) => state.user);
-  const token = useSelector((state) => state.token);
+  const token = useSelector((state) => state.auth.token);
   const product = useSelector((state) => state.pos.product);
 
   useEffect(() => {
@@ -81,6 +82,21 @@ const CreateProduct = () => {
     }
   };
 
+  // Function to generate a slug based on the product name
+  const generateSlug = (name) => {
+    return name.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
+  };
+
+  // Function to handle the product name change
+  const handleNameChange = (e) => {
+    const name = e.target.value;
+    setName(name);
+    
+    // Generate the slug
+    const generatedSlug = generateSlug(name);
+    setSlug(generatedSlug);
+  };
+
   const handleProduct = async () => {
     const formData = new FormData();
     formData.append('name', name);
@@ -88,6 +104,8 @@ const CreateProduct = () => {
     formData.append('unit_price', unit_price);
     formData.append('carton_price', carton_price);
     formData.append('carton_size', carton_size);
+    console.log('This is the slug:', slug);
+    formData.append('slug', slug);
     formData.append('image', image);
     formData.append('category', selectedCategories.map((category) => category.value).join(','));
     
@@ -144,7 +162,7 @@ const CreateProduct = () => {
                     type="text"
                     fullWidth
                     value={name}
-                    onChange={(e) => setName(e.target.value)}
+                    onChange={handleNameChange}
                     inputProps={{ minLength: 2, maxLength: 50 }}
                     required
                   />
@@ -193,6 +211,18 @@ const CreateProduct = () => {
                     fullWidth
                     value={carton_size}
                     onChange={(e) => setCartonSize(e.target.value)}
+                    inputProps={{ minLength: 2, maxLength: 50 }}
+                    required
+                  />
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    id="slug"
+                    label="Slug"
+                    type="text"
+                    fullWidth
+                    value={slug}
+                    onChange={(e) => setSlug(e.target.value)}
                     inputProps={{ minLength: 2, maxLength: 50 }}
                     required
                   />

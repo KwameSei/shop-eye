@@ -15,3 +15,4 @@ export { default as CreateSupplier } from './supplier/create/CreateSupplier.jsx'
 export { default as DisplaySupplier } from './supplier/display/DisplaySupplier.jsx';
 export { default as CreateProduct } from './products/create/CreateProduct.jsx';
 export { default as CreateProductCategory } from './products/create/CreateProductCategory.jsx';
+export { default as ProductList } from './products/display/ProductList.jsx';

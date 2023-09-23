@@ -5,7 +5,7 @@ import Product from '../models/productModel.js';
 import Category from '../models/product_categoryModel.js';
 
 export const createProduct = async (req, res) => {
-  const { name, stock, unit_price, carton_price, carton_size } = req.body;
+  const { name, stock, unit_price, carton_price, carton_size, slug } = req.body;
   const image = req.file.path;
 
   if (!image) {
@@ -26,12 +26,12 @@ export const createProduct = async (req, res) => {
     });
 
     // Slugify the name
-    if (req.body.name) {
-      req.body.slug = slugify(req.body.name, {
-        lower: true,
-        strict: true
-      });
-    }
+    // if (req.body.name) {
+    //   req.body.slug = slugify(req.body.name, {
+    //     lower: true,
+    //     strict: true
+    //   });
+    // }
 
     // Parse Selected Categories as an array
     const selectedProductCategories = Array.isArray(req.body.category)
@@ -49,7 +49,8 @@ export const createProduct = async (req, res) => {
         public_id: result.public_id,
       },
       image_mimetype: image.mimetype,
-      category: selectedProductCategories
+      category: selectedProductCategories,
+      slug
     });
 
     await product.save();
@@ -57,11 +58,39 @@ export const createProduct = async (req, res) => {
     // Fetch the product from the database
     const products = await Product.find().populate('category').sort({ createdAt: -1 });
 
+    if (!products) {
+      return res.status(404).json({
+        status: 404,
+        success: false,
+        error: 'Products not found'
+      });
+    }
+
+    // Calculate total stock by summing the stock of all products
+    const totalStock = products.reduce((acc, product) => acc + product.stock, 0);
+
+    // Calculate total unit price by summing the unit price of all products
+    const totalUnitPrice = products.reduce((acc, product) => acc + product.unit_price, 0);
+
+    // Calculate total carton price by summing the carton price of all products
+    const totalCartonPrice = products.reduce((acc, product) => acc + product.carton_price, 0);
+
+    // Calculate total carton size by summing the carton size of all products
+    const totalCartonSize = products.reduce((acc, product) => acc + product.carton_size, 0);
+
+    // Calculate total number of products
+    const totalProducts = products.length;
+
     res.status(201).json({
       status: 201,
       success: true,
       product,
       products,
+      totalStock,
+      totalUnitPrice,
+      totalCartonPrice,
+      totalCartonSize,
+      totalProducts,
       message: 'Product created successfully'
     });
   } catch (error) {

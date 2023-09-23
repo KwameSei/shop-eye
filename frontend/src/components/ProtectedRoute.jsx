@@ -6,8 +6,6 @@ const ProtectedRoute = ({ children }) => {
   const navigate = useNavigate();
   const isSignedIn = useSelector(state => state.auth.token);
 
-  console.log('Protected user sign in is:', isSignedIn);
-
   if (!isSignedIn) {
     return <Navigate to="/login" replace={true} />;
   }

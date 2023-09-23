@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ArrowDropDown, ArrowDropUp, Close, Person, Menu, Search, Compare, Favorite, CardTravel, ShoppingBag, ShoppingBagOutlined, ShoppingCartCheckout, Message } from "@mui/icons-material";
 import swal from "sweetalert";
 
 import { Navbar } from "../index";
+import { setLogout } from "../../State/auth/authSlice";
 import "./Header.scss";
 import { Badge, IconButton } from "@mui/material";
 
@@ -165,6 +166,13 @@ import { Badge, IconButton } from "@mui/material";
 // };
 
 const Header = () => {
+  const dispatch = useDispatch();
+  const [isSignedIn, setIsSignedIn] = useState(false);
+
+  const handleLogout = () => {
+    dispatch(setLogout());
+    setIsSignedIn(false);
+  };
 
   return (
     <div>

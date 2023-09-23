@@ -214,7 +214,7 @@ const Dashboard = () => {
       <div className='container-chart'>
         <h3>Sales Stats</h3>
         <Column {...config} />
-    </div> 
+      </div> 
     {/* TABLE */}
     <div className="orders">
       <h3>Recent Orders</h3>

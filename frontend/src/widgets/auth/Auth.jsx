@@ -3,10 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, DialogActions, DialogContent, DialogContentText, TextField } from '@mui/material';
 import { Close, LockOpen, PersonAdd, Send } from '@mui/icons-material';
-import { setLogin, setRegister } from '../../State/auth/authSlice';
+import { setUser, setToken } from '../../State/auth/authSlice';
 import * as Yup from 'yup';
 
-const Auth = ({ onSignIn }) => {
+const Auth = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [error, setError] = useState(null);
@@ -20,8 +20,8 @@ const Auth = ({ onSignIn }) => {
   const passwordRef = useRef();
   const confirmPasswordRef = useRef();
 
-  const user = useSelector((state) => state.user);
-  const token = useSelector((state) => state.token);
+  const user = useSelector((state) => state.auth.user);
+  const token = useSelector((state) => state.auth.token);
 
   const serverURL = import.meta.env.VITE_SERVER_URL;
 
@@ -122,8 +122,9 @@ const Auth = ({ onSignIn }) => {
       }
 
       if (response.ok) {
-        dispatch(setLogin(data))
-        onSignIn(data.token, data.user);
+        dispatch(setUser(data.user))
+        dispatch(setToken(data.token))
+        // onSignIn(data.token, data.user);
         navigate('/dashboard')
       }
     } catch (err) {

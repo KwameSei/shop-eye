@@ -136,8 +136,8 @@
           "path": "/create-product-category"
         },
         {
-          "title": "Update POS",
-          "path": "/update-pos/:id"
+          "title": "Display Product List",
+          "path": "/product-list"
         },
         {"title": "Branches"},
         {
