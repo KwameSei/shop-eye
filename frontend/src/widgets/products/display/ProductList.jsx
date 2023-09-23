@@ -134,10 +134,12 @@ const ProductList = () => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
+  const serverURL = import.meta.env.VITE_SERVER_URL;
+
   // Fetch products from the database
   const getProducts = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/products/get-products')
+      const response = await axios.get(`${serverURL}/api/products/get-products`)
       .then((response) => {
         console.log(response.data);
 
