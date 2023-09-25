@@ -6,6 +6,8 @@ import { Close, LockOpen, PersonAdd, Send } from '@mui/icons-material';
 import { setUser, setToken } from '../../State/auth/authSlice';
 import * as Yup from 'yup';
 
+import './Auth.scss'
+
 const Auth = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -167,9 +169,12 @@ const Auth = () => {
 
   return (
     <>
-      <div className="register-box">
-        <div className="register-logo">
+      <div className="auth">
+        {/* <div className="register-logo">
           <a href="../../index2.html">Shop Eye</a>
+        </div> */}
+
+        <h3 className="welcome">Welcome to Shop Eye POS</h3>
 
           <div className="card">
             <div className="card-body register-card-body">
@@ -262,7 +267,6 @@ const Auth = () => {
               </DialogActions>
             </div>
           </div>
-        </div>
       </div>
     </>
   )
