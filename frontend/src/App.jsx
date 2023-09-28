@@ -22,7 +22,8 @@ import {
   DisplaySupplier,
   CreateProduct,
   CreateProductCategory,
-  ProductList
+  ProductList,
+  Orders,
 } from './widgets';
 import { setLogin, setLogout, setToken } from './State/auth/authSlice';
 
@@ -37,15 +38,6 @@ function App() {
   const token = useSelector(state => state.auth.token);
   const [isSignedIn, setIsSignedIn] = useState(false)
 
-  // const isLoggedIn = () => {
-  //   const token = useSelector(state => state.auth.token);
-  //   if (token) {
-  //     return true;
-  //   }
-  //   return false;
-  // }
-
-  // Check for token in local storage on app initialization
   useEffect(() => {
     const userToken = localStorage.getItem('token');
     const user = JSON.parse(localStorage.getItem('user'));
@@ -75,8 +67,40 @@ function App() {
 
   // const { isAuthenticated, SecuredRoute } = useAuth();
 
+  // Prevent users from getting access to the source code
+
+  const preventRightClick = (e) => {
+    e.preventDefault();
+    swal('Oops!', 'Right click is disabled!', 'error');
+  }
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'ContextMenu' || e.key === 'F12' || e.key === 'Control' || e.key === 'Shift' || e.key === 'I') {
+      e.preventDefault();
+      swal('Oops!', 'This action is not allowed!', 'error');
+    }
+  }
+
+  // useEffect(() => {
+  //   const handleCtlshitIDown = (e) => {
+  //     if (e.ctrlKey && e.shiftKey && e.key === 'I') {
+  //       e.preventDefault();
+  //     }
+  //   };
+
+  //   window.addEventListener('keydown', handleCtlshitIDown);
+
+  //   return () => {
+  //     window.removeEventListener('keydown', handleCtlshitIDown);
+  //   };
+  // }, []);
+
   return (
-      <div className='app'>
+      <div className='app'
+        onContextMenu={preventRightClick}
+        onKeyDown={handleKeyDown}
+        tabIndex='0' // This is to enable the onKeyDown event listener
+      >
         {isSignedIn && !['/login', '/register'].includes(location.pathname) && (
         <>
           <Header />
@@ -102,6 +126,7 @@ function App() {
           <Route path='/create-product' element={<ProtectedRoute><CreateProduct /></ProtectedRoute>} />
           <Route path='/create-product-category' element={<ProtectedRoute><CreateProductCategory /></ProtectedRoute>} />
           <Route path='/product-list' element={<ProtectedRoute><ProductList /></ProtectedRoute>} />
+          <Route path='/orders' element={<ProtectedRoute><Orders /></ProtectedRoute>} />
           <Route path='/account-activation/:token' element={<AccountActivation />} />
             {/* <Route element={<Dashboard />}  /> */}
           {/* </Route> */}

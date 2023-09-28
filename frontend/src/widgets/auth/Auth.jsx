@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, DialogActions, DialogContent, DialogContentText, TextField } from '@mui/material';
 import { Close, LockOpen, PersonAdd, Send } from '@mui/icons-material';
@@ -15,7 +15,7 @@ const Auth = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [pageType, setPageType] = useState('login');
   const [isRegister, setIsRegister] = useState(false);
-  const [isLogin, setIsLogin] = useState(true);
+  // const [isLogin, setIsLogin] = useState(true);
   const [title, setTitle] = useState('Login');
   const nameRef = useRef();
   const emailRef = useRef();
@@ -26,6 +26,8 @@ const Auth = () => {
   const token = useSelector((state) => state.auth.token);
 
   const serverURL = import.meta.env.VITE_SERVER_URL;
+
+  const isLogin = !isRegister;  // Used when switching between login and register
 
   // Use useEffect to change the title of the page
   useEffect(() => {
@@ -234,16 +236,54 @@ const Auth = () => {
                     />
                   )}
                 </DialogContent>
-                <DialogActions>
-                  <Button 
+                <div className="sub-field">
+                <DialogActions
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'left',
+                    alignItems: 'center',
+                  }}
+                >
+                  {isLogin && (
+                    <>
+                      <div className='sub-sub-fields' >
+                        <div>
+                          <input
+                            type="checkbox"
+                            id="rememberMe"
+                            name="rememberMe"
+                          />
+                          <label htmlFor="rememberMe">Remember me</label>
+                        </div>
+                  
+                        <div className="forgot-password">
+                          <Link to="" className="link">
+                            Forgot password?
+                          </Link>
+                        </div>
+                      </div>
+                    </>
+                  )}
+                </DialogActions>
+                  
+                <DialogActions
+                  sx={{
+                    display: 'flex',
+                    right: 0,
+                    top: '0',
+                  }}
+                >
+                  <Button
                     type="submit"
-                    color="primary" 
+                    color="primary"
                     endIcon={<Send />}
                     disabled={isSubmitting}
                   >
                     Submit
                   </Button>
                 </DialogActions>
+              </div>
+
               </form>
               <DialogActions
                 sx={{

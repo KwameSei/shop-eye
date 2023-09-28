@@ -205,6 +205,33 @@
       ]
     },
     {
+      "title": "Order Management",
+      "icon": "Person",
+      "childrens": [
+        {
+          "title": "Create Supplier",
+          "path": "/create-supplier"
+        },
+        {
+          "title": "Get All Orders",
+          "path": "/orders"
+        },
+        {
+          "title": "Update POS",
+          "path": "/update-pos/:id"
+        },
+        {"title": "Branches"},
+        {
+          "title": "Create Branch",
+          "path": "/create-branch"
+        },
+        {
+          "title": "Get All Branches",
+          "path": "/display-branches"
+        }
+      ]
+    },
+    {
       "title": "Menu 3",
       "icon": "BugReport",
       "path": "/menu3"

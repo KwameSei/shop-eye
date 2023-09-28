@@ -5,6 +5,8 @@ const initialState = {
   products: [],
   productCategories: [],
   productCategory: null,
+  order: null,
+  orders: [],
   isFetching: false,
   isError: false
 };
@@ -48,6 +50,21 @@ const productSlice = createSlice({
     },
     getIsError: (state, action) => {
       state.isError = action.payload;
+    },
+    getOrder: (state, action) => {
+      state.order = action.payload;
+    },
+    setOrder: (state, action) => {
+      state.order = action.payload;
+    },
+    getOrders: (state, action) => {
+      state.orders = action.payload;
+    },
+    setOrders: (state, action) => {
+      state.orders = action.payload.orders;
+    },
+    deleteOrder: (state, action) => {
+      state.order = null;
     }
   }
 });
@@ -64,7 +81,12 @@ export const {
   setProductCategories,
   deleteProductCategory,
   getIsFetching,
-  getIsError
+  getIsError,
+  getOrder,
+  setOrder,
+  getOrders,
+  setOrders,
+  deleteOrder
 } = productSlice.actions;
 
 export default productSlice.reducer;
