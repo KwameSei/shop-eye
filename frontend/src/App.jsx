@@ -107,7 +107,18 @@ function App() {
           <Sidebar />
         </>
         )}
-        <ToastContainer />
+        <ToastContainer
+          position='top-right'
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick={true}
+          rtl={false}
+          pauseOnFocusLoss={true}
+          draggable={true}
+          pauseOnHover={true}
+          theme='colored'
+        />
         <Routes>
           <Route path='/login' element={<Auth onSignIn={handleSignIn} />} />
           {/* <Route path='/register' element={<Auth onSignIn={handleSignIn} />} /> */}

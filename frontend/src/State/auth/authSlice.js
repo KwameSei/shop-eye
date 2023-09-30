@@ -26,6 +26,7 @@ const initialState = {
     token: localStorage.getItem("token") || null,
     isSuccess: false,
     message: '',
+    isAuthenticated: false,
 };
 
 const authSlice = createSlice({
@@ -39,6 +40,22 @@ const authSlice = createSlice({
     //   state.error = null;
     //   state.user = action.payload.user;
     // },
+    loadUserRequest: (state, action) => {
+      state.isLoading = true;
+    },
+    loadUserSuccess: (state, action) => {
+      state.isLoading = false;
+      state.isAuthenticated = true;
+      state.user = action.payload;
+    },
+    loadUserFail: (state, action) => {
+      state.isLoading = false;
+      state.isAuthenticated = false;
+      state.isError = action.payload;
+    },
+    clearError: (state, action) => {
+      state.isError = null;
+    },
     setToken: (state, action) => {
       state.token = action.payload;
       localStorage.setItem("token", action.payload);  // save token to local storage
@@ -119,7 +136,11 @@ const authSlice = createSlice({
   extraReducers: () => {},
 });
 
-export const { 
+export const {
+  loadUserRequest,
+  loadUserSuccess,
+  loadUserFail,
+  clearError,
   signIn,
   setToken, 
   signOut, 

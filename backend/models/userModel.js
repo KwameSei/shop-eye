@@ -42,6 +42,10 @@ const userSchema = new mongoose.Schema({
     enum: ["user", "admin", "superadmin"],
     default: "user",
   },
+  role: {
+    type: String,
+    default: "user",
+  },
   orders: [
     {
       type: mongoose.Schema.Types.ObjectId,

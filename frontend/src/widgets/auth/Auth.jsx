@@ -5,6 +5,7 @@ import { Button, DialogActions, DialogContent, DialogContentText, TextField } fr
 import { Close, LockOpen, PersonAdd, Send } from '@mui/icons-material';
 import { setUser, setToken } from '../../State/auth/authSlice';
 import * as Yup from 'yup';
+import { toast } from 'react-toastify';
 
 import './Auth.scss'
 
@@ -128,11 +129,13 @@ const Auth = () => {
       if (response.ok) {
         dispatch(setUser(data.user))
         dispatch(setToken(data.token))
+        toast.success('Login successful!');
         // onSignIn(data.token, data.user);
         navigate('/dashboard')
       }
     } catch (err) {
       console.log(err);
+      toast.error(err.message || 'Something went wrong!');
       setError(err.message || 'Something went wrong!');
       setIsSubmitting(false);
     } finally {
