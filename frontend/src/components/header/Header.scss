@@ -54,7 +54,22 @@
     border: none;
   }
 }
-
+.search-results {
+  position: relative;
+  padding: 0 5px;
+  // margin-top: 5px;
+  font-size: 12px;
+  // top: 30px; /* Position it below the input field */
+  // left: 0;
+  z-index: 9999; /* Ensure it appears above other elements */
+  background-color: #fff; /* Add background color */
+  border-radius: 5px;
+  // border: 1px solid #ccc; /* Add borders as needed */
+  // max-height: 200px; /* Set a maximum height and use overflow-y for scrolling */
+  overflow-y: auto;
+  // width: 0%; /* Match the input field's width */
+  // display: none;
+}
 .second-layer {
   display: flex;
   align-items: center;

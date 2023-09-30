@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Search, Compare, Favorite, Person, ShoppingBagOutlined, ShoppingCartCheckout, Message } from "@mui/icons-material";
+import { Search, Compare, Favorite, Person, ShoppingBagOutlined, ShoppingCartCheckout, Message, ArrowForwardIosOutlined } from "@mui/icons-material";
 import swal from "sweetalert";
 import axios from "axios";
 import { Button } from "@mui/material";
@@ -67,6 +67,15 @@ const Header = () => {
 
     //Set filteredData to the filtered products or empty array if the query is empty
     setFilteredData(query ? filteredProducts: []);
+
+    // Show or hide search results based on whether there are search results
+    const searchResultsContainer = document.querySelector(".search-results");
+    if (filteredProducts && filteredProducts.length > 0) {
+      searchResultsContainer.style.display = "block"; // Show search results
+      // searchResultsContainer.style.position = "absolute";
+    } else {
+      searchResultsContainer.style.display = "none"; // Hide search results
+    }
   };
 
   return (
@@ -121,21 +130,24 @@ const Header = () => {
               <Search onChange={handleSearch} />
             </span>
           </div>
-            {
-              filteredData && filteredData.length !== 0 ? (
-                <div className="search-results">
-                  {filteredData.map((product) => (
-                    <div key={product._id}>
-                      <h3>{product.name}</h3>
-                      {/* Display other product details here */}
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                ''
-              )
-            }
+          <div className="search-results">
+          {
+            filteredData && filteredData.length !== 0 ? (
+              <div className="search-results">
+                {filteredData.map((product) => (
+                  <div key={product._id}>
+                    <h3>{product.name}</h3>
+                    {/* Display other product details here */}
+                  </div>
+                ))}
+              </div>
+            ) : (
+              ''
+            )
+          }
         </div>
+        </div>
+        
 
         <div className="text-icons icons-right">
           <Link className="link cart-badge">
@@ -166,6 +178,15 @@ const Header = () => {
               Messages
             </p>
           </Link>
+        </div>
+        <div className="seller">
+          <button>
+            <Link to="">
+              <h3>
+                Become Seller <ArrowForwardIosOutlined />
+              </h3>
+            </Link>
+          </button>
         </div>
       </div>
     </div>
