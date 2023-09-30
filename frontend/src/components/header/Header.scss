@@ -134,3 +134,31 @@
 .icons-right {
   justify-content: flex-end;
 }
+
+/* CSS for category-main when active is true */
+.category-main {
+  background-color: #f0f0f0;
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+
+/* CSS for category-section */
+.category-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px; /* Adjust the height as needed */
+}
+
+/* CSS for categories */
+.categories {
+  background-color: #007bff; /* Blue background color */
+  color: #fff; /* White text color */
+  width: 30px; /* Adjust the width as needed */
+  height: 30px; /* Adjust the height as needed */
+  border-radius: 50%; /* Makes it a circle */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px; /* Adjust the font size as needed */
+}

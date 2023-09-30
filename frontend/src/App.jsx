@@ -98,7 +98,7 @@ function App() {
   return (
       <div className='app'
         onContextMenu={preventRightClick}
-        onKeyDown={handleKeyDown}
+        // onKeyDown={handleKeyDown}
         tabIndex='0' // This is to enable the onKeyDown event listener
       >
         {isSignedIn && !['/login', '/register'].includes(location.pathname) && (

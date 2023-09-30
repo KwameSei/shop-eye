@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Search, Compare, Favorite, Person, ShoppingBagOutlined, ShoppingCartCheckout, Message, ArrowForwardIosOutlined } from "@mui/icons-material";
+import { Search, Compare, Favorite, Person, ShoppingBagOutlined, ShoppingCartCheckout, Message, ArrowForwardIosOutlined, ListAltOutlined } from "@mui/icons-material";
 import swal from "sweetalert";
 import axios from "axios";
 import { Button } from "@mui/material";
@@ -13,6 +13,7 @@ import { Badge } from "@mui/material";
 
 const Header = () => {
   const dispatch = useDispatch();
+  const [active, setActive] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredData, setFilteredData] = useState([]);
   const [products, setProducts] = useState([]);
@@ -77,6 +78,14 @@ const Header = () => {
       searchResultsContainer.style.display = "none"; // Hide search results
     }
   };
+  
+  window.addEventListener("scroll", () => { // Add scroll event listener to window
+    if (window.screenY > 70) {
+      setActive(true);
+    } else {
+      setActive(false);
+    }
+  });
 
   return (
     <div>
@@ -85,6 +94,15 @@ const Header = () => {
           <a href="/" className="logo">
             <h3>Shop Eye</h3>
           </a>
+          <div className={active ? "category-main" : null}>
+            <div className="category-section">
+              <div>
+                <div className="categories">
+                  <ListAltOutlined />
+                </div>
+              </div>
+            </div>
+          </div>
           <Navbar />
         </div>
       </header>
