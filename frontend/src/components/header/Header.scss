@@ -33,6 +33,7 @@
     background-color: grey;
     color: #fff;
     font-size: 15px;
+    cursor: pointer;
     
     &::placeholder {
       color: #fff;
@@ -55,21 +56,25 @@
   }
 }
 .search-results {
-  position: relative;
+  position: absolute;
   padding: 0 5px;
   // margin-top: 5px;
   font-size: 12px;
-  // top: 30px; /* Position it below the input field */
-  // left: 0;
+  // top: 100%; /* Position it below the input field */
+  left: 37%;
   z-index: 9999; /* Ensure it appears above other elements */
   background-color: #fff; /* Add background color */
   border-radius: 5px;
   // border: 1px solid #ccc; /* Add borders as needed */
   // max-height: 200px; /* Set a maximum height and use overflow-y for scrolling */
   overflow-y: auto;
-  // width: 0%; /* Match the input field's width */
-  // display: none;
+  width: 100%; /* Match the input field's width */
+  display: none;
 }
+.search-results.active {
+  display: block;
+}
+
 .second-layer {
   display: flex;
   align-items: center;
@@ -80,7 +85,7 @@
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
   position: fixed;
   top: 5rem;
-  z-index: 9999;
+  // z-index: 9999;
 }
 .second-layer-icons {
   display: flex;
@@ -148,17 +153,134 @@
   justify-content: center;
   align-items: center;
   height: 50px; /* Adjust the height as needed */
+  z-index: 9999;
 }
 
 /* CSS for categories */
-.categories {
-  background-color: #007bff; /* Blue background color */
-  color: #fff; /* White text color */
-  width: 30px; /* Adjust the width as needed */
-  height: 30px; /* Adjust the height as needed */
-  border-radius: 50%; /* Makes it a circle */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 18px; /* Adjust the font size as needed */
+
+.category-main {
+  
 }
+
+.inner-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 50px;
+  border-radius: 5px;
+  color: #fff;
+  background-color: grey;
+  border-radius: 5px;
+
+  .categories {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 50px;
+    padding: 0 5px;
+    color: #fff;
+    font-weight: 600;
+    background-color: orange;
+    border-radius: 5px 0 0 5px;
+    cursor: pointer;
+  }
+}
+
+// .categories {
+//   display: flex;
+//   align-items: center;
+//   gap: 10px; /* Adjust the gap between elements */
+// }
+
+.category-button {
+  height: 50px;
+  width: 130px;
+  background-color: #007bff; /* Change the background color */
+  color: #fff; /* Change the text color */
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  outline: none;
+  transition: background-color 0.3s ease-in-out;
+
+  &:hover {
+    background-color: #0056b3; /* Change the hover background color */
+  }
+}
+
+.category-dropdown-arrow {
+  font-size: 24px;
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out;
+
+  &.rotate {
+    transform: rotate(180deg); /* Rotate the arrow when the dropdown is active */
+  }
+}
+
+.category-dropdown {
+  position: relative;
+}
+
+.category-dropdown-content {
+  position: absolute;
+  top: 100%;
+  left: -195%;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 286px; /* Adjust the width as needed */
+  z-index: 1;
+}
+
+// .category-dropdown-header {
+//   padding: 10px;
+//   background-color: #007bff; /* Change the header background color */
+//   color: #fff; /* Change the header text color */
+//   border-top-left-radius: 5px;
+//   border-top-right-radius: 5px;
+// }
+
+.category-dropdown-body ul {
+  list-style: none;
+  padding: 0;
+}
+
+.category-dropdown-body li {
+  padding: 5px 10px;
+
+  a {
+    text-decoration: none;
+    color: #333; /* Change the link text color */
+    transition: color 0.3s ease-in-out;
+
+    &:hover {
+      color: #007bff; /* Change the link text color on hover */
+    }
+  }
+}
+
+.category-dropdown-footer {
+  padding: 10px;
+  text-align: center;
+
+  .category-link {
+    text-decoration: none;
+    color: #fff; /* Change the link text color */
+    transition: color 0.3s ease-in-out;
+
+    &:hover {
+      color: #007bff; /* Change the link text color on hover */
+    }
+  }
+}
+
+/* Add additional styles as needed */
+
+/* Media query for responsiveness if required */
+@media (max-width: 768px) {
+  /* Define styles for smaller screens */
+}
+

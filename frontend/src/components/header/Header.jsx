@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Search, Compare, Favorite, Person, ShoppingBagOutlined, ShoppingCartCheckout, Message, ArrowForwardIosOutlined, ListAltOutlined } from "@mui/icons-material";
+import { Search, Compare, Favorite, Person, ShoppingBagOutlined, ShoppingCartCheckout, Message, ArrowForwardIosOutlined, ListAltOutlined, ArrowDropDown, ArrowDropDownOutlined } from "@mui/icons-material";
 import swal from "sweetalert";
 import axios from "axios";
 import { Button } from "@mui/material";
@@ -14,6 +14,7 @@ import { Badge } from "@mui/material";
 const Header = () => {
   const dispatch = useDispatch();
   const [active, setActive] = useState(false);
+  const [dropdown, setDropdown] = useState(false); // State to show or hide the dropdown menu
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredData, setFilteredData] = useState([]);
   const [products, setProducts] = useState([]);
@@ -96,11 +97,58 @@ const Header = () => {
           </a>
           <div className={active ? "category-main" : null}>
             <div className="category-section">
-              <div>
-                <div className="categories">
-                  <ListAltOutlined />
+              <div className="inner-section">
+                <div className="categories"
+                  // onClick={() => setActive(!active)}
+                  onClick={() => setDropdown(!dropdown)} // Show or hide the dropdown menu
+                >
+                  <ListAltOutlined
+                    className="category-icon"
+                    onClick={() => setDropdown(!dropdown)} // Show or hide the dropdown menu
+                  />
+
+                  {/* <button
+                    className="category-button"
+                    onClick={() => setActive(!active)}
+                  > */}
+                    Categories
+                  {/* </button> */}
+
+                  <ArrowDropDownOutlined
+                    className="category-dropdown-arrow"
+                    onClick={() => setDropdown(!dropdown)} // Show or hide the dropdown menu
+                  />
+                  </div>
+                  <div className="category-dropdown">
+                    {
+                      dropdown ? (
+                        <div className="category-dropdown-content">
+                          {/* <div className="category-dropdown-header">
+                            <h3>All Categories</h3>
+                          </div> */}
+                          <div className="category-dropdown-body">
+                            <ul>
+                              {categories.map((category) => (
+                                <li key={category._id}>
+                                  <Link to={`/category/${category._id}`}>
+                                    {category.name}
+                                  </Link>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </div>
+                      ) : (
+                        ''
+                      )
+                    }
+                    <div className="category-dropdown-footer">
+                      <Link to="/categories" className="category-link">
+                        View All Categories
+                      </Link>
+                    </div>
+                  </div>
                 </div>
-              </div>
             </div>
           </div>
           <Navbar />
@@ -149,22 +197,14 @@ const Header = () => {
             </span>
           </div>
           <div className="search-results">
-          {
-            filteredData && filteredData.length !== 0 ? (
-              <div className="search-results">
-                {filteredData.map((product) => (
-                  <div key={product._id}>
-                    <h3>{product.name}</h3>
-                    {/* Display other product details here */}
-                  </div>
-                ))}
+              {filteredData.map((product) => (
+              <div key={product._id}>
+                <h3>{product.name}</h3>
+                {/* Display other product details here */}
               </div>
-            ) : (
-              ''
-            )
-          }
-        </div>
-        </div>
+            ))}
+            </div>
+          </div>
         
 
         <div className="text-icons icons-right">
