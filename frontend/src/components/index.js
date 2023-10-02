@@ -3,4 +3,5 @@ export { default as Header } from './header/Header.jsx';
 export { default as Footer } from './footer/Footer.jsx';
 export { default as ProtectedRoute } from './ProtectedRoute.jsx';
 export { default as Navbar } from './navbar/Navbar.jsx';
+export { default as Banner } from './banner/Banner.jsx';
 // export { default as Items } from './Menu/Items.jsx';

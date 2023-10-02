@@ -85,7 +85,7 @@
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
   position: fixed;
   top: 5rem;
-  // z-index: 9999;
+  z-index: 1;
 }
 .second-layer-icons {
   display: flex;
@@ -265,6 +265,7 @@
 .category-dropdown-footer {
   padding: 10px;
   text-align: center;
+  cursor: pointer;
 
   .category-link {
     text-decoration: none;

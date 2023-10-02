@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getProduct } from '../../State/product/productSlice';
+import Banner from '../../components/banner/Banner';
 import '../Common.scss';
 
 const Home = () => {
@@ -56,7 +57,9 @@ const Home = () => {
   };
 
   return (
-    <div className='main'>Home</div>
+    <div className='main'>
+      <Banner />
+    </div>
   )
 }
 
