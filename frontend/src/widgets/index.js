@@ -16,4 +16,5 @@ export { default as DisplaySupplier } from './supplier/display/DisplaySupplier.j
 export { default as CreateProduct } from './products/create/CreateProduct.jsx';
 export { default as CreateProductCategory } from './products/create/CreateProductCategory.jsx';
 export { default as ProductList } from './products/display/ProductList.jsx';
+export { default as BestDeals } from './products/display/BestDeals.jsx';
 export { default as Orders } from './order/Orders.jsx';

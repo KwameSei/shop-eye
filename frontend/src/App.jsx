@@ -26,7 +26,7 @@ import {
   Orders,
 } from './widgets';
 import { setLogin, setLogout, setToken } from './State/auth/authSlice';
-
+import Loader from './components/loader/loader'
 // import { useAuth } from './components/useAuth.jsx';
 
 import './App.css'
@@ -119,6 +119,7 @@ function App() {
           pauseOnHover={true}
           theme='colored'
         />
+        {/* <Loader /> */}
         <Routes>
           <Route path='/login' element={<Auth onSignIn={handleSignIn} />} />
           {/* <Route path='/register' element={<Auth onSignIn={handleSignIn} />} /> */}

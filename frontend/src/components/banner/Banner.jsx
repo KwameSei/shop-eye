@@ -8,7 +8,7 @@ const Banner = () => {
   return (
     <div className='banner'
       style={{
-        position: 'absolute',
+        // position: 'relative',
         overflow: 'hidden',
         width: '1100px',
         height: '70vh',
