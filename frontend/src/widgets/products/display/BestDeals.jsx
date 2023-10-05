@@ -3,12 +3,14 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { ProductCard } from '../../../components';
+import { Loader } from '../../../components';
 import './DisplayProducts.scss';
 
 const BestDeals = () => {
 
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([])
+  const [isLoading, setLoading] = useState(false);
 
   const token = useSelector((state) => state.auth.token);
   // const products = useSelector((state) => state.product.products);
@@ -19,6 +21,7 @@ const BestDeals = () => {
   // Fetch products from the database
   const getProducts = async () => {
     try {
+      setLoading(true)
       const response = await axios.get(`${serverURL}/api/products/get-products`);
       console.log(response.data);
 
@@ -35,6 +38,8 @@ const BestDeals = () => {
       // setCategories(fetchedCategories);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false)
     }
   };
 
@@ -54,6 +59,9 @@ const BestDeals = () => {
           ))}
         </div>
       </div>
+      {
+        isLoading && <Loader />
+      }
     </div>
   )
 }

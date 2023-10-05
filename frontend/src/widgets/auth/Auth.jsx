@@ -13,7 +13,6 @@ import './Auth.scss';
 const Auth = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { showLoading, hideLoading } = useLoading();
   const [error, setError] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [pageType, setPageType] = useState('login');

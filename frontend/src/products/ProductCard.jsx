@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './Products.scss';
 import { Link } from 'react-router-dom';
-import { Star, Visibility } from '@mui/icons-material';
+import { Add, Delete, Favorite, FavoriteBorder, Remove, ShoppingBag, ShoppingCart, Star, Visibility } from '@mui/icons-material';
 
 const ProductCard = ({ product }) => {
   const [click, setClick] = useState(false);
@@ -19,7 +19,7 @@ const ProductCard = ({ product }) => {
               <img src={product.image.url} alt={product.name} className='image' />
             {/* </div> */}
           </Link>
-          <Link to={`/product/${product_name}`}>
+          <Link to={`/product/${product_name}`} className='link'>
             <h4>
               {product.name.length > 20 ? product.name.substring(0, 20) + '...' : product.name}
             </h4>
@@ -32,10 +32,52 @@ const ProductCard = ({ product }) => {
               <Star className="star" />
             </div>
           </Link>
-          <div className="product-price">₵{product.unit_price}</div>
+          <div className="all-prices">
+            <div className="product-price">
+              {product.unit_price ? "₵" + product.unit_price : null}
+            </div>
+            <span>
+              { product.sold } sold
+            </span>
+          </div>
           {/* <Link to="/">
             <h4>{data.shop.name}</h4>
           </Link> */}
+        </div>
+
+        {/* Side icons */}
+        <div className="side-icons">
+          { click ? (
+            <Favorite
+              className="favorite"
+              onClick={() => setClick(!click)}
+              titleAccess='Remove from wishlist'
+            />
+          ) : (
+            <FavoriteBorder
+              className="favorite"
+              onClick={() => setClick(!click)}
+              titleAccess='Add to wishlist'
+            />
+          )}
+          <Visibility
+            className="visibility"
+            onClick={() => setOpen(!open)}
+            titleAccess='View product'
+          />
+          <ShoppingCart className="shopping-bag"
+            onClick={() => setOpen(!open)}
+            titleAccess='Add to cart'
+          />
+
+          {/* <div className="product-quantity">
+            <span>1</span>
+            <div className="quantity-icons">
+              <Add className="add" />
+              <Remove className="remove" />
+              <Delete className="delete" />
+            </div>
+          </div> */}
         </div>
       </div>
     </>
