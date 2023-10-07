@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './Products.scss';
 import { Link } from 'react-router-dom';
 import { Add, Delete, Favorite, FavoriteBorder, Remove, ShoppingBag, ShoppingCart, Star, Visibility } from '@mui/icons-material';
+import { ProductDetailsCard } from '../index';
 
 const ProductCard = ({ product }) => {
   const [click, setClick] = useState(false);
@@ -70,6 +71,17 @@ const ProductCard = ({ product }) => {
             titleAccess='Add to cart'
           />
 
+          {/* Open and close modal */}
+          {
+            open ? (
+              <ProductDetailsCard
+                // open={open}
+                setOpen={setOpen}
+                product={product}
+              />
+            ) : null
+          }
+          
           {/* <div className="product-quantity">
             <span>1</span>
             <div className="quantity-icons">
