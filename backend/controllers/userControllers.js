@@ -74,7 +74,7 @@ export const registerUser = async (req, res) => {
     const subject = 'Account activation link';
     const message = `
         <h1>Please use the following link to activate your account</h1>
-        <p>/api/users/activate-account/${token}</p>
+        <p>${process.env.CLIENT_URL}/api/users/activate-account/${token}</p>
         <hr />
         <p>This email may contain sensitive information</p>
         <p>${process.env.CLIENT_URL}</p>
