@@ -71,30 +71,31 @@ export const registerUser = async (req, res) => {
       { expiresIn: process.env.JWT_EXPIRES_IN}
     );
 
-    const subject = 'Account activation link';
-    const message = `
-        <h1>Please use the following link to activate your account</h1>
-        <p>${process.env.CLIENT_URL}/api/users/activate-account/${token}</p>
-        <hr />
-        <p>This email may contain sensitive information</p>
-        <p>${process.env.CLIENT_URL}</p>
-      `;
-    const send_to = email;
-    const sent_from = process.env.EMAIL_USER;
-    const reply_to = process.env.EMAIL_USER;
+    // const subject = 'Account activation link';
+    // const message = `
+    //     <h1>Please use the following link to activate your account</h1>
+    //     <p>${process.env.CLIENT_URL}/api/users/activate-account/${token}</p>
+    //     <hr />
+    //     <p>This email may contain sensitive information</p>
+    //     <p>${process.env.CLIENT_URL}</p>
+    //   `;
+    // const send_to = email;
+    // const sent_from = process.env.EMAIL_USER;
+    // const reply_to = process.env.EMAIL_USER;
 
-    req.body.activated_token = token;
+    // req.body.activated_token = token;
 
-    // await sendEmail(emailData);
+    // // await sendEmail(emailData);
 
-    sendEmail(subject, message, send_to, sent_from, reply_to);
+    // sendEmail(subject, message, send_to, sent_from, reply_to);
 
     const newUser = await User.create(req.body);
 
     res.status(201).json({
       success: true,
       status: 201,
-      message: `Email has been sent to ${email}. Follow the instruction to activate your account`,
+      message: 'User created successfully',
+      // message: `Email has been sent to ${email}. Follow the instruction to activate your account`,
       newUser
     })
   } catch (error) {

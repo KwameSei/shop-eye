@@ -71,13 +71,18 @@ const Auth = () => {
       }
 
       // Display a message to the user about activation
-      alert('Please check your email to activate your account!');
+      // alert('Please check your email to activate your account!');
 
-      // Clear the form
-      nameRef.current.value = '';
-      emailRef.current.value = '';
-      passwordRef.current.value = '';
-      confirmPasswordRef.current.value = '';
+      // // Clear the form
+      // nameRef.current.value = '';
+      // emailRef.current.value = '';
+      // passwordRef.current.value = '';
+      // confirmPasswordRef.current.value = '';
+
+      dispatch(setUser(data.user));
+      dispatch(setToken(data.token));
+      toast.success('Registration successful! Please check your email to activate your account.');
+      navigate('/dashboard');
 
     } catch (err) {
       console.log(err);
