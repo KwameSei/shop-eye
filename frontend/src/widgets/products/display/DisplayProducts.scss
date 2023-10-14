@@ -1,3 +1,5 @@
+// BEST DEALS
+
 .best-deals {
   margin-top: 2rem;
   margin-bottom: 2rem;
@@ -41,5 +43,22 @@
         }
       }
     }
+  }
+}
+
+
+// PRODUCT EVENTS
+.event-card {
+  height: 100%;
+  padding: 0 10px;
+  background-color: #f8f9fa;
+  border-radius: 0.5rem;
+  border: 1px solid #dee2e6;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+
+  h2 {
+    font: 1.5rem;
+    font-weight: 700;
+    margin: 0 auto;
   }
 }

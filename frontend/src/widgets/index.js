@@ -17,4 +17,6 @@ export { default as CreateProduct } from './products/create/CreateProduct.jsx';
 export { default as CreateProductCategory } from './products/create/CreateProductCategory.jsx';
 export { default as ProductList } from './products/display/ProductList.jsx';
 export { default as BestDeals } from './products/display/BestDeals.jsx';
+export { default as ProductEvents } from './products/display/ProductEvents.jsx';
+export { default as FeaturedProducts } from './products/display/FeaturedProducts.jsx';
 export { default as Orders } from './order/Orders.jsx';

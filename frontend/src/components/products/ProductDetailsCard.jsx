@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import { CloseOutlined, Favorite, FavoriteBorder, Message, Send, ShoppingCartCheckout } from '@mui/icons-material';
 import { Button } from '@mui/material';
 

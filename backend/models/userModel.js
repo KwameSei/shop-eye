@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema({
   },
   phone: {
     type: String,
-    unique: true,
+    // unique: true,
     match: [phoneRegex, "Please provide a valid phone number"],
     default: null,
     index: true
