@@ -96,7 +96,8 @@ export const registerUser = async (req, res) => {
       status: 201,
       message: 'User created successfully',
       // message: `Email has been sent to ${email}. Follow the instruction to activate your account`,
-      newUser
+      newUser,
+      token
     })
   } catch (error) {
     res.status(400);

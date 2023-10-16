@@ -67,6 +67,7 @@ const Auth = () => {
       setIsSubmitting(false);
 
       if (!response.ok) {
+        toast.error(data.message || 'Something went wrong!');
         throw new Error(data.message || 'Something went wrong!');
       }
 
@@ -81,7 +82,7 @@ const Auth = () => {
 
       dispatch(setUser(data.user));
       dispatch(setToken(data.token));
-      toast.success('Registration successful! Please check your email to activate your account.');
+      toast.success('Registration successful!');
       navigate('/dashboard');
 
     } catch (err) {
