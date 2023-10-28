@@ -106,72 +106,69 @@ export const registerUser = async (req, res) => {
 };
 
 // Activate user account
-export const activateAccount = async (req, res) => {
-  let token = req.params.token;
+// export const activateAccount = async (req, res) => {
+//   let token = req.params.token;
 
-  try {
-    if (token) {
-      jsonwebtoken.verify(token, process.env.JWT_SECRET, async (err, decodedToken) => {
-        if (err) {
-          console.log('Error while verifying token', err);
-          return res.status(400).json({
-            success: false,
-            status: 400,
-            message: 'Incorrect or expired link'
-          })
-        }
-      });
+//   try {
+//     if (token) {
+//       jsonwebtoken.verify(token, process.env.JWT_SECRET, async (err, decodedToken) => {
+//         if (err) {
+//           console.log('Error while verifying token', err);
+//           return res.status(400).json({
+//             success: false,
+//             status: 400,
+//             message: 'Incorrect or expired link'
+//           })
+//         }
+//       });
 
-      let updatedFields = {
-        status: 'active',
-        activated_token: ''
-      };
+//       let updatedFields = {
+//         status: 'active',
+//         activated_token: ''
+//       };
 
-      let user = await User.findOneAndUpdate(
-        { activated_token: token },
-        updatedFields,
-        { new: true }
-      );
+//       let user = await User.findOneAndUpdate(
+//         { activated_token: token },
+//         updatedFields,
+//         { new: true }
+//       );
       
-      res.status(200).json({
-        success: true,
-        status: 200,
-        message: 'Account activated successfully',
-        user
-      });
-    }
-  } catch (error) {
-    res.status(400).json({
-      success: false,
-      status: 400,
-      message: error.message,
-      error: error.message
-    })
-  }
-};
+//       res.status(200).json({
+//         success: true,
+//         status: 200,
+//         message: 'Account activated successfully',
+//         user
+//       });
+//     }
+//   } catch (error) {
+//     res.status(400).json({
+//       success: false,
+//       status: 400,
+//       message: error.message,
+//       error: error.message
+//     })
+//   }
+// };
 
 // Login user
 export const loginUser = async (req, res) => {
-
-    const { email, password } = req.body;
+  const { email, password } = req.body;
 
   try {
-    // Validate user input
     if (!(email && password)) {
-      res.status(400)
-      throw new Error('All fields are required');
+      return res.status(400).json({
+        success: false,
+        status: 400,
+        message: 'All fields are required',
+      });
     }
 
-    // Convert email to lowercase
     const emailToLower = email.toLowerCase();
-
-    // Check if user exists
     const user = await User.findOne({ email: emailToLower }).select('+password');
 
     if (user) {
       if (bcrypt.compareSync(req.body.password, user.password)) {
         if (user.status === 'active') {
-          // Only allow login for active users
           const payload = {
             _id: user._id,
             name: user.name,
@@ -181,7 +178,6 @@ export const loginUser = async (req, res) => {
           const token = jwt.sign(payload, process.env.JWT_SECRET, {
             expiresIn: '1d',
           });
-          console.log(token);
 
           res.json({
             success: true,
@@ -194,25 +190,34 @@ export const loginUser = async (req, res) => {
               avatar: user.avatar,
             },
             message: 'User logged in successfully',
-          })
+          });
         } else if (user.status === 'not_active') {
-          res.status(400).json({
+          return res.status(400).json({
             success: false,
             status: 400,
-            message: 'Please activate your account first'
-          })
+            message: 'Please activate your account first',
+          });
         }
       } else {
-        res.status(400).json({
+        return res.status(400).json({
           success: false,
           status: 400,
           message: 'Invalid email or password',
-        })
+        });
       }
+    } else {
+      return res.status(400).json({
+        success: false,
+        status: 400,
+        message: 'User not found',
+      });
     }
   } catch (error) {
-    res.status(400)
-    throw new Error(error);
+    res.status(500).json({
+      success: false,
+      status: 500,
+      message: error.message,
+    });
   }
 };
 

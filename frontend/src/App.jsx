@@ -23,6 +23,8 @@ import {
   CreateProduct,
   CreateProductCategory,
   ProductList,
+  ProductsDisplay,
+  DisplayCategory,
   Orders,
 } from './widgets';
 import { setLogin, setLogout, setToken } from './State/auth/authSlice';
@@ -138,6 +140,8 @@ function App() {
           <Route path='/create-product' element={<ProtectedRoute><CreateProduct /></ProtectedRoute>} />
           <Route path='/create-product-category' element={<ProtectedRoute><CreateProductCategory /></ProtectedRoute>} />
           <Route path='/product-list' element={<ProtectedRoute><ProductList /></ProtectedRoute>} />
+          <Route path='/products-display' element={<ProtectedRoute><ProductsDisplay /></ProtectedRoute>} />
+          <Route path='/category/:id' element={<ProtectedRoute><DisplayCategory /></ProtectedRoute>} />
           <Route path='/orders' element={<ProtectedRoute><Orders /></ProtectedRoute>} />
           <Route path='/account-activation/:token' element={<AccountActivation />} />
             {/* <Route element={<Dashboard />}  /> */}

@@ -1,0 +1,20 @@
+.sponsored {
+  margin-bottom: 20px;
+  
+  .sponsored-inner {
+    display: flex;
+    justify-content: space-between;
+
+    .sponsored-items {
+      display: flex;
+      align-items: flex-start;
+
+      img {
+        width: 10rem;
+        height: 10rem;
+        margin-right: 5px;
+        object-fit: contain;
+      }
+    }
+  }
+}

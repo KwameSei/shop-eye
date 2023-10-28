@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getProduct } from '../../State/product/productSlice';
-import{ Banner, SectionBelowBanner } from '../../components';
+import{ Banner, Footer, SectionBelowBanner, Sponsored } from '../../components';
 import { FeaturedProducts, ProductEvents } from '../index';
 import { BestDeals } from '../index';
 import '../Common.scss';
@@ -66,6 +66,8 @@ const Home = () => {
       <BestDeals />
       <ProductEvents />
       <FeaturedProducts />
+      <Sponsored />
+      <Footer />
     </div>
   )
 }

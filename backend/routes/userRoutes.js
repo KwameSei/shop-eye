@@ -1,6 +1,6 @@
 import express from 'express';
 import {
-  activateAccount,
+  // activateAccount,
   changeUserPassword,
   forgotPassword,
   getUserProfile, 
@@ -18,7 +18,7 @@ const router = express.Router();
 router.post('/register', registerUser);
 router.post('/login', loginUser);
 router.get('/get-profile/:id', getUserProfile);
-router.get('/activate-account/:token', activateAccount);
+// router.get('/activate-account/:token', activateAccount);
 router.patch('/update-profile/:id', updateUserProfile)
 router.patch('/change-password', changeUserPassword);
 router.get('/loggedin', loggedIn);

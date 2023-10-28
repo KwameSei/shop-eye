@@ -142,9 +142,9 @@ const Header = () => {
                         ''
                       )
                     }
-                    <div className="category-dropdown-footer">
+                    <div className="category-dropdown-footer"> 
                       <Link to="/categories" className="category-link">
-                        View All Categories
+                        All Categories
                       </Link>
                     </div>
                   </div>

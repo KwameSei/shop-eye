@@ -58,7 +58,7 @@ const userSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    default: "not_active",
+    default: "active",
   },
   activated_token: {
     type: String,

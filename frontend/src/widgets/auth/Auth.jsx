@@ -118,7 +118,6 @@ const Auth = () => {
       });
 
       const data = await response.json();
-      console.log('Response from API:', data);
       setIsSubmitting(false);
 
       if (!response.ok) {

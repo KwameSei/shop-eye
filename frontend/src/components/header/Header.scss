@@ -143,7 +143,7 @@
 /* CSS for category-main when active is true */
 .category-main {
   background-color: #f0f0f0;
-  padding: 10px;
+  padding: 5px;
   border: 1px solid #ccc;
 }
 
@@ -264,6 +264,7 @@
 
 .category-dropdown-footer {
   padding: 10px;
+  width: 130px;
   text-align: center;
   cursor: pointer;
 

@@ -1,0 +1,35 @@
+.footer {
+  background-color: rgba(0, 0, 0, 0.8);
+  margin-top: 10px;
+  padding: 10px 0;
+  text-align: center;
+  font-size: 14px;
+  color: #fff;
+  margin-top: auto;
+  width: 100%;
+  z-index: 1;
+
+  .footer-inner {
+    display: flex;
+    justify-content: space-between;
+    // align-items: center;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0 1rem;
+    background-color: rgba(0, 0, 0, 0.8);;
+    color: #fff;
+
+    .footer-items {
+      display: flex;
+      align-items: flex-start;
+      flex-direction: column;
+
+      img {
+        width: 10rem;
+        height: 10rem;
+        margin-right: 5px;
+        object-fit: contain;
+      }
+    }
+  }
+}

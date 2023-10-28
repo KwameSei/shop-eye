@@ -293,10 +293,10 @@ export const searchProducts = async (req, res) => {
 }
 
 export const getProductsByCategory = async (req, res) => {
-  const { id } = mongoose.Types.ObjectId(req.params.id);
-
   try {
-    const category = await Category.findById(id).populate('product');
+    const id = req.params.id;
+
+    const category = await Category.findById(id);
 
     if (!category) {
       return res.status(404).json({
@@ -306,7 +306,10 @@ export const getProductsByCategory = async (req, res) => {
       });
     }
 
-    if (category.product.length === 0) {
+    // Find products that belong to this category
+    const products = await Product.find({ category: id });
+
+    if (products.length === 0) {
       return res.status(404).json({
         status: 404,
         success: false,
@@ -318,7 +321,7 @@ export const getProductsByCategory = async (req, res) => {
       status: 200,
       success: true,
       category,
-      products: category.product,
+      products,
       message: 'Products fetched successfully'
     });
   } catch (error) {
