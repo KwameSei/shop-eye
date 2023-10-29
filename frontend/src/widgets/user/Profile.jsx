@@ -11,6 +11,7 @@ import swal from "sweetalert";
 import axios from "axios";
 
 import { updateUser, setUser, setUsers, setLoading } from "../../State/auth/authSlice";
+import '../Common.scss';
 
 const FILE_SIZE = 1024 * 1024 * 5; // 5MB
 const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/gif", "image/png"];
@@ -190,7 +191,7 @@ const Profile = () => {
   };
 
   return (
-    <div className="wrapper">
+    <div className="wrapper main">
       <Box width="80%" sx={{
         margin: "0 auto",
       }}>

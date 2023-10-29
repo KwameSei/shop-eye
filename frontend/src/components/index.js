@@ -10,6 +10,7 @@ export { default as ProductDetailsCard } from './products/ProductDetailsCard.jsx
 export { default as ProductEventCard } from './products/ProductEventCard.jsx';
 export { default as CountDown } from './count-down/CountDown.jsx';
 export { default as Sponsored } from './sponsor/Sponsored.jsx';
+export { default as Cart } from './cart/Cart.jsx';
 // export { default as FeaturedProducts } from '../widgets/products/display/FeaturedProducts.jsx';
 export { default as Loader } from './loader/loader.jsx'
 // export { default as Items } from './Menu/Items.jsx';

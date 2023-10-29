@@ -4,17 +4,37 @@ const Items = [
     url: '/home',
   },
   {
+    title: 'Products',
+    url: '/products-display',
+  },
+  {
+    title: 'Best Selling',
+    url: '/best-selling',
+  },
+  {
     title: 'Dashboard',
     url: '/dashboard',
+  },
+  {
+    title: 'Events',
+    url: '/product-events',
   },
   {
     title: 'Contact',
     url: '/contact',
   },
   {
-    title: 'Logout',
-    url: '/logout',
+    title: 'FAQ',
+    url: '/faq',
   },
+  // {
+  //   title: 'Login',
+  //   url: '/login',
+  // },
+  // {
+  //   title: 'Logout',
+  //   url: '/logout',
+  // },
   // {
   //   title: 'Register',
   //   url: '/register',

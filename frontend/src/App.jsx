@@ -25,7 +25,10 @@ import {
   ProductList,
   ProductsDisplay,
   DisplayCategory,
+  BestSelling,
+  ProductEvents,
   Orders,
+  FAQ,
 } from './widgets';
 import { setLogin, setLogout, setToken } from './State/auth/authSlice';
 import Loader from './components/loader/loader'
@@ -142,8 +145,11 @@ function App() {
           <Route path='/product-list' element={<ProtectedRoute><ProductList /></ProtectedRoute>} />
           <Route path='/products-display' element={<ProtectedRoute><ProductsDisplay /></ProtectedRoute>} />
           <Route path='/category/:id' element={<ProtectedRoute><DisplayCategory /></ProtectedRoute>} />
+          <Route path='/best-selling' element={<ProtectedRoute><BestSelling /></ProtectedRoute>} />
+          <Route path='/product-events' element={<ProtectedRoute><ProductEvents /></ProtectedRoute>} />
           <Route path='/orders' element={<ProtectedRoute><Orders /></ProtectedRoute>} />
           <Route path='/account-activation/:token' element={<AccountActivation />} />
+          <Route path='/faq' element={<FAQ />} />
             {/* <Route element={<Dashboard />}  /> */}
           {/* </Route> */}
           {/* <Route

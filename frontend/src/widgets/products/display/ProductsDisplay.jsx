@@ -69,7 +69,7 @@ const ProductsDisplay = () => {
       const filteredProducts = productData && productData.filter((product) => product.category === categoryData);
       setData(filteredProducts);
     };
-    window.scrollTo(0, 0);  // Scroll to the top of the page
+    // window.scrollTo(0, 0);  // Scroll to the top of the page
   }, []);
 
   return (

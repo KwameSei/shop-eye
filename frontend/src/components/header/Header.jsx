@@ -5,7 +5,7 @@ import { Search, Compare, Favorite, Person, ShoppingBagOutlined, ShoppingCartChe
 import swal from "sweetalert";
 import axios from "axios";
 import { Button } from "@mui/material";
-import { Navbar } from "../index";
+import { Navbar, Cart } from "../index";
 import { setLogout } from "../../State/auth/authSlice";
 import { setProducts } from "../../State/product/productSlice";
 import "./Header.scss";
@@ -19,6 +19,11 @@ const Header = () => {
   const [filteredData, setFilteredData] = useState([]);
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([])
+  const [openCart, setOpenCart] = useState(false);
+  const [openMessage, setOpenMessage] = useState(false);
+  const [openWishlist, setOpenWishlist] = useState(false);
+
+  const { isAuthenticated, user } = useSelector((state) => state.auth.user);
 
   const token = useSelector((state) => state.auth.token);
   // const products = useSelector((state) => state.product.products);
@@ -207,7 +212,9 @@ const Header = () => {
           </div>
         
 
-        <div className="text-icons icons-right">
+        <div className="text-icons icons-right"
+          onClick={() => setOpenCart(true)}
+        >
           <Link className="link cart-badge">
             <Badge badgeContent={1} color="error" sx={{
               '& .MuiBadge-badge': {
@@ -216,6 +223,23 @@ const Header = () => {
               },
             }}>
               <ShoppingCartCheckout color="action" className="badge-icon" />
+            </Badge>
+            <p>
+              ₵ 0.00
+            </p>
+          </Link>
+        </div>
+        <div className="text-icons icons-right"
+          onClick={() => setOpenCart(true)}
+        >
+          <Link className="link cart-badge">
+            <Badge badgeContent={1} color="success" sx={{
+              '& .MuiBadge-badge': {
+                right: -6,
+                top: 4,
+              },
+            }}>
+              <Favorite color="action" className="badge-icon" />
             </Badge>
             <p>
               ₵ 0.00
@@ -246,6 +270,36 @@ const Header = () => {
             </Link>
           </button>
         </div>
+        {/* Cart Popup */}
+        {
+          openCart ? (
+            <div className="cart-popup">
+              <Cart setOpenCart={setOpenCart} />
+            </div>
+          ) : (
+            ''
+          )
+        }
+        {/* Message Popup */}
+        {
+          openMessage ? (
+            <div className="message-popup">
+              {/* <Message /> */}
+            </div>
+          ) : (
+            ''
+          )
+        }
+        {/* Wishlist Popup */}
+        {
+          openWishlist ? (
+            <div className="wishlist-popup">
+              {/* <Favorite /> */}
+            </div>
+          ) : (
+            ''
+          )
+        }
       </div>
     </div>
   );

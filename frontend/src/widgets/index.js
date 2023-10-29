@@ -21,4 +21,6 @@ export { default as BestDeals } from './products/display/BestDeals.jsx';
 export { default as ProductEvents } from './products/display/ProductEvents.jsx';
 export { default as DisplayCategory } from './products/display/DisplayCategory.jsx';
 export { default as FeaturedProducts } from './products/display/FeaturedProducts.jsx';
+export { default as BestSelling } from './products/display/BestSelling.jsx';
 export { default as Orders } from './order/Orders.jsx';
+export { default as FAQ } from './products/faq/FAQ.jsx';
