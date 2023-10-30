@@ -31,37 +31,32 @@ const Footer = () => {
               })
             }
           </div>
-          <p>Careers</p>
-          <p>Blog</p>
-          <p>About Amazon</p>
-          <p>Investor Relations</p>
-          <p>Amazon Devices</p>
         </div>
         <div className="footer-items">
           <h3>Make Money with Us</h3>
-          <p>Sell products on Amazon</p>
-          <p>Sell apps on Amazon</p>
+          <p>Sell products on Shop Eye</p>
+          <p>Sell apps on Shop Eye</p>
           <p>Become an Affiliate</p>
           <p>Advertise Your Products</p>
           <p>Self-Publish with Us</p>
-          <p>Host an Amazon Hub</p>
+          <p>Host an Shop Eye Hub</p>
         </div>
         <div className="footer-items">
-          <h3>Amazon Payment Products</h3>
-          <p>Amazon Business Card</p>
+          <h3>Shop Eye Payment Products</h3>
+          <p>Shop Eye Business Card</p>
           <p>Shop with Points</p>
           <p>Reload Your Balance</p>
-          <p>Amazon Currency Converter</p>
+          <p>Shop Eye Currency Converter</p>
         </div>
         <div className="footer-items">
           <h3>Let Us Help You</h3>
-          <p>Amazon and COVID-19</p>
+          <p>Shop Eye and COVID-19</p>
           <p>Your Account</p>
           <p>Your Orders</p>
           <p>Shipping Rates & Policies</p>
           <p>Returns & Replacements</p>
           <p>Manage Your Content and Devices</p>
-          <p>Amazon Assistant</p>
+          <p>Shop Eye Assistant</p>
           <p>Help</p>
         </div>
       </div>

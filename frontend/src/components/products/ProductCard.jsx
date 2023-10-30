@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import './Products.scss';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Add, Delete, Favorite, FavoriteBorder, Remove, ShoppingBag, ShoppingCart, Star, Visibility } from '@mui/icons-material';
 import { ProductDetailsCard } from '../index';
 
 const ProductCard = ({ product }) => {
+  const { id } = useParams();
   const [click, setClick] = useState(false);
   // const { name, image, unit_price } = product
   const [open, setOpen] = useState(false);
@@ -15,7 +16,7 @@ const ProductCard = ({ product }) => {
     <>
       <div className='product-card'>
         <div className="product-content">
-          <Link to={`/product/${product_name}`} className='link'>
+          <Link to={`/product/${product._id}`} className='link'>
             {/* <div className="product-image"> */}
               <img src={product.image.url} alt={product.name} className='image' />
             {/* </div> */}

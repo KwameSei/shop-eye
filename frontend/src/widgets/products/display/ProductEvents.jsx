@@ -8,10 +8,10 @@ import { ProductEventCard } from '../../../components';
 
 const ProductEvents = () => {
   return (
-        <div className="event-card main">
-          <h2>Popular Events</h2>
-          <ProductEventCard />
-        </div>
+    <div className="event-card main">
+      <h2>Popular Events</h2>
+      <ProductEventCard />
+    </div>
   )
 }
 

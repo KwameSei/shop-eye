@@ -62,3 +62,79 @@
     margin: 0 auto;
   }
 }
+
+
+// PRODUCT DETAILS STYLING
+.details {
+  margin-bottom: 2rem;
+  padding-top: 2rem;
+
+  .details-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 2rem;
+
+    .details-image {
+      img {
+        width: 250px;
+        height: 250px;
+        object-fit: cover;
+        margin-left: 50px;
+        border-radius: 50%;
+        border: 1px solid #dee2e6;
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+      }
+    }
+
+    .details-info {
+      h2 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin: 0 auto;
+      }
+
+      p {
+        font-size: 1rem;
+        font-weight: 700;
+        margin-top: 1rem;
+      }
+
+      .details-price {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-top: 1rem;
+      }
+
+      .details-description {
+        font-size: 1rem;
+        font-weight: 700;
+        margin-top: 1rem;
+      }
+
+      .details-quantity {
+        font-size: 1rem;
+        font-weight: 700;
+        margin-top: 1rem;
+      }
+
+      .details-button {
+        margin-top: 1rem;
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        border: none;
+        background-color: #000;
+        color: #fff;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+
+        &:hover {
+          background-color: #fff;
+          color: #000;
+          border: 1px solid #000;
+        }
+      }
+    }
+  }
+}

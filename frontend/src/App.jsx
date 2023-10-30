@@ -25,6 +25,7 @@ import {
   ProductList,
   ProductsDisplay,
   DisplayCategory,
+  SingleProduct,
   BestSelling,
   ProductEvents,
   Orders,
@@ -147,6 +148,7 @@ function App() {
           <Route path='/category/:id' element={<ProtectedRoute><DisplayCategory /></ProtectedRoute>} />
           <Route path='/best-selling' element={<ProtectedRoute><BestSelling /></ProtectedRoute>} />
           <Route path='/product-events' element={<ProtectedRoute><ProductEvents /></ProtectedRoute>} />
+          <Route path='/product/:id' element={<ProtectedRoute><SingleProduct /></ProtectedRoute>} />
           <Route path='/orders' element={<ProtectedRoute><Orders /></ProtectedRoute>} />
           <Route path='/account-activation/:token' element={<AccountActivation />} />
           <Route path='/faq' element={<FAQ />} />

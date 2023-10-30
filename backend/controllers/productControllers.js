@@ -131,7 +131,7 @@ export const getProducts = async (req, res) => {
 };
 
 export const getSingleProduct = async (req, res) => {
-  const { id } = mongoose.Types.ObjectId(req.params.id);
+  const id = req.params.id;
 
   try {
     const product = await Product.findById(id).populate('category');

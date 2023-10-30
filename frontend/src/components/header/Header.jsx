@@ -10,6 +10,7 @@ import { setLogout } from "../../State/auth/authSlice";
 import { setProducts } from "../../State/product/productSlice";
 import "./Header.scss";
 import { Badge } from "@mui/material";
+import WishList from "../wishlist/WishList";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -21,7 +22,7 @@ const Header = () => {
   const [categories, setCategories] = useState([])
   const [openCart, setOpenCart] = useState(false);
   const [openMessage, setOpenMessage] = useState(false);
-  const [openWishlist, setOpenWishlist] = useState(false);
+  const [openWishList, setOpenWishList] = useState(false);
 
   const { isAuthenticated, user } = useSelector((state) => state.auth.user);
 
@@ -230,7 +231,7 @@ const Header = () => {
           </Link>
         </div>
         <div className="text-icons icons-right"
-          onClick={() => setOpenCart(true)}
+          onClick={() => setOpenWishList(true)}
         >
           <Link className="link cart-badge">
             <Badge badgeContent={1} color="success" sx={{
@@ -292,9 +293,9 @@ const Header = () => {
         }
         {/* Wishlist Popup */}
         {
-          openWishlist ? (
+          openWishList ? (
             <div className="wishlist-popup">
-              {/* <Favorite /> */}
+              <WishList setOpenWishList={setOpenWishList} />
             </div>
           ) : (
             ''
