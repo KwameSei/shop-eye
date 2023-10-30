@@ -332,3 +332,43 @@ export const getProductsByCategory = async (req, res) => {
     })
   }
 }
+
+//Get related or suggested products
+export const getRelatedProducts = async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.id);
+
+    if (!product) {
+      return res.status(404).json({
+        status: 404,
+        success: false,
+        error: 'Product not found'
+      });
+    }
+
+    const relatedProducts = await Product.find({
+      _id: { $ne: product._id },  // Exclude the current product
+      category: product.category  // Find products that belong to the same category
+    }).limit(5);
+
+    if (relatedProducts.length === 0) {
+      return res.status(404).json({
+        status: 404,
+        success: false,
+        error: 'No related product found'
+      });
+    }
+
+    res.status(200).json({
+      status: 200,
+      success: true,
+      relatedProducts
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: 500,
+      success: false,
+      error: 'Server error'
+    });
+  }
+}

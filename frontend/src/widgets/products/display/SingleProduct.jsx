@@ -6,6 +6,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 
 import '../../Common.scss';
+import SuggestedProducts from './SuggestedProducts';
 
 const SingleProduct = () => {
   const { id } = useParams();
@@ -50,6 +51,9 @@ const SingleProduct = () => {
   return (
     <div className='main'>
       <ProductDetails data={data} />
+      {
+        data && <SuggestedProducts data={data} />
+      }
       <Footer />
     </div>
   )
