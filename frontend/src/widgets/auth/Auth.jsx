@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, DialogActions, DialogContent, DialogContentText, TextField } from '@mui/material';
 import { Send } from '@mui/icons-material';
-import { setUser, setToken, setLoading } from '../../State/auth/authSlice';
+import { setUser, setToken, loadUserSuccess, setLoading } from '../../State/auth/authSlice';
 import { useLoading } from '../../components/Loading.jsx';
 import { toast } from 'react-toastify';
 import { Loader } from '../../components';
@@ -16,6 +16,7 @@ const Auth = () => {
   const [error, setError] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [pageType, setPageType] = useState('login');
+  const [users, setUsers] = useState([]); // Users state
   const [isRegister, setIsRegister] = useState(false);
   const [title, setTitle] = useState('Login');
   const nameRef = useRef();
@@ -80,7 +81,7 @@ const Auth = () => {
       // passwordRef.current.value = '';
       // confirmPasswordRef.current.value = '';
 
-      dispatch(setUser(data.user));
+      dispatch(loadUserSuccess(data.user));
       dispatch(setToken(data.token));
       toast.success('Registration successful!');
       navigate('/dashboard');
@@ -117,14 +118,20 @@ const Auth = () => {
         body: JSON.stringify(userData)
       });
 
-      const data = await response.json();
-      setIsSubmitting(false);
+      // const data = await response.json();
+      // setIsSubmitting(false);
 
       if (!response.ok) {
         throw new Error(data.message || 'Something went wrong!');
       }
 
-      dispatch(setUser(data.user));
+      // dispatch(setUser(data.user));
+      // dispatch(setToken(data.token));
+      // toast.success('Login successful!');
+      // navigate('/dashboard');
+
+      const data = await response.json();
+      dispatch(loadUserSuccess(data.user)); // Dispatch the action
       dispatch(setToken(data.token));
       toast.success('Login successful!');
       navigate('/dashboard');

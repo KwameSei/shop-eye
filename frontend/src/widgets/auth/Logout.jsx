@@ -114,6 +114,7 @@ const Logout = () => {
   const handleLogout = () => {
     // Perform logout logic here
     localStorage.removeItem("token");
+    window.location.reload(true);
     navigate("/login");
   };
 

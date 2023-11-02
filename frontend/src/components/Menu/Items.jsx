@@ -39,20 +39,24 @@ const Items = [
   //   title: 'Register',
   //   url: '/register',
   // },
-  {
-    title: 'Profile',
-    url: '/profile/:id',
-    submenu: [
-      {
-        title: 'Update Profile',
-        url: '/profile/:id',
-      },
-      {
-        title: 'Logout',
-        url: '/logout',
-      },
-    ],
-  },
+  // {
+  //   title: 'Profile',
+  //   // url: '/profile/:id',
+  //   submenu: [
+  //     {
+  //       title: 'View Profile',
+  //       url: '/profile/:id',
+  //     },
+  //     {
+  //       title: 'Update Profile',
+  //       url: '/update-profile/:id',
+  //     },
+  //     {
+  //       title: 'Logout',
+  //       url: '/logout',
+  //     },
+  //   ],
+  // },
 ];
 
 export default Items;

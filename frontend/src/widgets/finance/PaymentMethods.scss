@@ -1,0 +1,55 @@
+.payment {
+   width: 100%;
+
+   .payment-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+   }
+
+   .buttons {
+      margin-left: 35rem;
+      margin-bottom: 2rem;
+   }
+
+   .methods {
+    // width: 100%;
+    height: 70px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+
+    .methods-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+
+      .username {
+        font-size: 18px;
+        font-weight: bold;
+      }
+    }
+
+    .card-number {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 18px;
+      font-weight: bold;
+
+      span {
+        margin-right: 20px;
+      }
+    }
+
+    .action {
+      color: #f00;
+    }
+   }
+}

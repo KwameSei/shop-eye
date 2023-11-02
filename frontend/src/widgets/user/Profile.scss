@@ -1,0 +1,117 @@
+// PROFILE STYLING
+.profile {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+}
+
+
+// PROFILE SIDEBAR STYLING
+// .profile-sidebar {
+//   width: 100%;
+
+//   .sidebar-inner {
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//     width: 100%;
+//     cursor: pointer;
+
+//     .profile-head.active {
+//       font-size: large;
+//       font-weight: 600;
+//       color: red;
+//     }
+//   }
+// }
+
+.profile-sidebar {
+  
+  .sidebar-inner {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+
+    &:hover {
+      background-color: #f0f0f0; // Change to your desired hover background color
+    }
+
+    .heading {
+      margin-left: 10px;
+      font-weight: bold;
+      color: #f00;
+      transition: color 0.2s; // Smooth color transition
+    }
+  }
+}
+
+
+// PROFILE CONTENT STYLING
+.profile-content {
+  background-color: #f0f0f0;
+
+  .content-inner {
+    
+    h1 {
+      font-size: 24px;
+      font-weight: bold;
+      color: #f00;
+      text-align: center;
+    }
+  }
+}
+
+
+// PROFILE PAGE STYLING
+.profile-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+  width: 100%;
+  height: 100%;
+
+  .profile-picture {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .profile-name {
+    font-size: 24px;
+    font-weight: bold;
+  }
+
+  .profile-email {
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  .profile-bio {
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  .profile-website {
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  .profile-socials {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .profile-socials a {
+    font-size: 24px;
+    color: #000;
+    transition: color 0.2s; // Smooth color transition
+  }
+
+  .profile-socials a:hover {
+    color: #f00;
+  }
+}

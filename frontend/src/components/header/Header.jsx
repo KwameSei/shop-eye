@@ -18,13 +18,17 @@ const Header = () => {
   const [dropdown, setDropdown] = useState(false); // State to show or hide the dropdown menu
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredData, setFilteredData] = useState([]);
-  const [products, setProducts] = useState([]);
+  // const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([])
   const [openCart, setOpenCart] = useState(false);
   const [openMessage, setOpenMessage] = useState(false);
   const [openWishList, setOpenWishList] = useState(false);
 
-  const { isAuthenticated, user } = useSelector((state) => state.auth.user);
+  const { user } = useSelector((state) => state.auth);
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const products = useSelector((state) => state.product.products);
+  console.log("The user is: ", user);
+  console.log("Is authenticated: ", isAuthenticated);
 
   const token = useSelector((state) => state.auth.token);
   // const products = useSelector((state) => state.product.products);
@@ -158,6 +162,24 @@ const Header = () => {
             </div>
           </div>
           <Navbar />
+          <div className="profile">
+            <Link to={`/profile/${user._id}`} className="link">
+              {/* <Person className="profile-icon" /> */}
+              {
+                isAuthenticated ? (
+                  <div className="profile-details">
+                    <div className="profile-name">{user.name[0]}</div>
+                    {/* <p>{user.email}</p> */}
+                  </div>
+                ) : (
+                  // <Button variant="contained" color="primary" size="small">
+                  //   Sign In
+                  // </Button>
+                  <Person className="profile-icon" />
+                )
+              }
+            </Link>
+          </div>
         </div>
       </header>
       <div className="second-layer">

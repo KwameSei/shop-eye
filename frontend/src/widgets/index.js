@@ -4,7 +4,9 @@ export { default as Auth } from './auth/Auth.jsx';
 // export { default as Roles } from './auth/Roles.js';
 // export { default as Guard } from './auth/Guard.jsx';
 export { default as Profile } from './user/Profile.jsx';
+export { default as UpdateProfile } from './user/UpdateProfile.jsx';
 export { default as AccountActivation } from './user/AccountActivation.jsx';
+export { default as Address } from './user/Address.jsx';
 export { default as Logout } from './auth/Logout.jsx';
 export { default as PosCreate } from './pos/create/PosCreate.jsx';
 export { default as DisplayPos } from './pos/display/DisplayPos.jsx';
@@ -25,3 +27,5 @@ export { default as FeaturedProducts } from './products/display/FeaturedProducts
 export { default as BestSelling } from './products/display/BestSelling.jsx';
 export { default as Orders } from './order/Orders.jsx';
 export { default as FAQ } from './products/faq/FAQ.jsx';
+export { default as Refund } from './finance/Refund.jsx';
+export { default as PaymentMethods } from './finance/PaymentMethods.jsx';

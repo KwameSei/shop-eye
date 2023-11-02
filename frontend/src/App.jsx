@@ -9,8 +9,9 @@ import { Sidebar, Header, Footer, ProtectedRoute } from './components'
 import { 
   Dashboard,
   Auth, 
-  Home, 
-  Profile, 
+  Home,
+  Profile,
+  UpdateProfile, 
   AccountActivation, 
   Logout, 
   PosCreate, 
@@ -131,6 +132,7 @@ function App() {
           {/* <Route path='/register' element={<Auth onSignIn={handleSignIn} />} /> */}
           <Route path='/' element={<Auth />} />
           <Route path='/profile/:id' element={<Profile />} />
+          <Route path='/update-profile/:id' element={<UpdateProfile />} />
           {/* <SecuredRoute path="/dashboard" element={<Dashboard />} isSignedIn={isSignedIn} /> */}
           <Route path="/home" element={ <ProtectedRoute> <Home /> </ProtectedRoute> } />
           <Route path='/dashboard' element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />

@@ -245,13 +245,13 @@ export const getUserProfile = async (req, res) => {
   const userId = req.params.id;
 
   // Check if userId is a valid ObjectId
-  if (!mongoose.Types.ObjectId.isValid(userId)) {
-    res.status(400).json({
-      success: false,
-      status: 400,
-      message: 'Invalid user id'
-    })
-  }
+  // if (!mongoose.Types.ObjectId.isValid(userId)) {
+  //   res.status(400).json({
+  //     success: false,
+  //     status: 400,
+  //     message: 'Invalid user id'
+  //   })
+  // }
   try {
     const user = await User.findById(userId);
     if (user) {
