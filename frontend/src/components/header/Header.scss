@@ -117,6 +117,24 @@
   position: fixed;
   top: 5rem;
   z-index: 1;
+
+  .seller {
+
+    .seller-button {
+      padding: 5px;
+      font-size: 15px;
+      font-weight: 600;
+      background-color: orange;
+
+      .link {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-decoration: none;
+        color: #fff;
+      }
+    }
+  }
 }
 .second-layer-icons {
   display: flex;

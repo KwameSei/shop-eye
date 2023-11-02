@@ -285,13 +285,11 @@ const Header = () => {
           </Link>
         </div>
         <div className="seller">
-          <button>
-            <Link to="">
-              <h3>
-                Become Seller <ArrowForwardIosOutlined />
-              </h3>
+          <Button className="seller-button">
+            <Link to="/shop-create" className="link">
+              Become Seller <ArrowForwardIosOutlined />
             </Link>
-          </button>
+          </Button>
         </div>
         {/* Cart Popup */}
         {

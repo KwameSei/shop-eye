@@ -30,6 +30,7 @@ import {
   BestSelling,
   ProductEvents,
   Orders,
+  ShopCreate,
   FAQ,
 } from './widgets';
 import { setLogin, setLogout, setToken } from './State/auth/authSlice';
@@ -153,6 +154,7 @@ function App() {
           <Route path='/product/:id' element={<ProtectedRoute><SingleProduct /></ProtectedRoute>} />
           <Route path='/orders' element={<ProtectedRoute><Orders /></ProtectedRoute>} />
           <Route path='/account-activation/:token' element={<AccountActivation />} />
+          <Route path='/shop-create' element={<ShopCreate />} />
           <Route path='/faq' element={<FAQ />} />
             {/* <Route element={<Dashboard />}  /> */}
           {/* </Route> */}
