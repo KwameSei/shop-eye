@@ -1,12 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { Send } from '@mui/icons-material';
 import { Button, DialogActions, DialogContent, DialogContentText, TextField } from '@mui/material';
 import Select from 'react-select';
 import { setBranch, setPos } from '../../../State/POS/posSlice';
 import '../../Common.scss';
+import './Create.scss';
 
 const CreateBranch = () => {
   const navigate = useNavigate();
@@ -14,11 +16,15 @@ const CreateBranch = () => {
   const [error, setError] = useState(null);
   const [selectedPosMachines, setSelectedPosMachines] = useState([]); // For the multiselect dropdown
   const [selectedBranch, setSelectedBranch] = useState(null);
+  const [isRegister, setIsRegister] = useState(false);
+  const [title, setTitle] = useState('Login');
   const [posMachines, setPosMachines] = useState([]);
   const [imagePreview, setImagePreview] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
+  const [password, setPassword] = useState('');
   const [address, setAddress] = useState('');
   const [image, setImage] = useState(null);
 
@@ -27,10 +33,13 @@ const CreateBranch = () => {
   const token = useSelector((state) => state.token);
   const branch = useSelector((state) => state.pos.branch);
 
+  const isLogin = !isRegister;
+
   useEffect(() => {
+    setTitle(isRegister ? 'Register' : 'Login');
     console.log('selectedPosMachines:', selectedPosMachines);
     console.log('posMachines:', posMachines);
-  }, [selectedPosMachines, posMachines]);
+  }, [selectedPosMachines, posMachines, isRegister]);
 
   const serverURL = import.meta.env.VITE_SERVER_URL;
 
@@ -106,9 +115,11 @@ const CreateBranch = () => {
     }
   };
 
-  const handleBranch = async () => {
+  const handleBranchRegister = async () => {
     const formData = new FormData();
     formData.append('name', name);
+    formData.append('email', email);
+    formData.append('password', password);
     formData.append('address', address);
     formData.append('phone', phone);
     formData.append('image', image);
@@ -141,29 +152,73 @@ const CreateBranch = () => {
     }
   };
 
+  const handleBranchLogin = async () => {
+    const userData = {
+      email,
+      password,
+    };
+
+    try {
+      setIsSubmitting(true);
+      setError(null);
+
+      const response = await axios.post(`${serverURL}/api/branches/login`, userData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log('response:', response);
+      const { data } = response;
+      dispatch(setBranch(data.branch));
+      dispatch(setPos(data.posMachines));
+      navigate('/dashboard');
+      setSelectedBranch(data.branch);
+
+      // Reset the form
+      setEmail('');
+      setPassword('');
+    } catch (err) {
+      console.error(err);
+      setError(err.message || 'Something went wrong!');
+      setIsSubmitting(false);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    handleBranch();
+    if (isLogin) {
+      handleBranchLogin();
+    } else {
+      handleBranchRegister();
+    }
+  };
+
+  const handleRegisterClick = () => {
+    setIsRegister(true);
+  };
+
+  const handleLoginClick = () => {
+    setIsRegister(false);
   };
 
   return (
     <>
-      <div className="register-box main">
-        <div className="register-logo">
-          <a href="../../index2.html">Shop Eye</a>
-
-          <div className="card">
-            <div className="card-body register-card-body">
-              <p className="login-box-msg">Create Branch</p>
-
+      <div className="register main">
+          <div className="register-card">
+              <p className="heading">Create your store</p>
+              <p className='title'>{title}</p>
               <form onSubmit={handleSubmit}>
-                <DialogContent dividers>
-                  <DialogContentText>Please enter your details here.</DialogContentText>
+                {/* <DialogContent dividers> */}
+                  <DialogContentText>Please enter your shop details here.</DialogContentText>
+                  {isRegister && (
+                    <>
                   <TextField
                     autoFocus
                     margin="dense"
                     id="name"
-                    label="Name"
+                    label="Shop Name"
                     type="text"
                     fullWidth
                     value={name}
@@ -171,11 +226,38 @@ const CreateBranch = () => {
                     inputProps={{ minLength: 2, maxLength: 50 }}
                     required
                   />
+                  </>
+                )}
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    id="email"
+                    label="Shop Email"
+                    type="text"
+                    fullWidth
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    inputProps={{ minLength: 6, maxLength: 50 }}
+                    required
+                  />
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    id="password"
+                    label="Shop Password"
+                    type="password"
+                    fullWidth
+                    value={password}
+                    inputProps={{ minLength: 6, maxLength: 50 }}
+                    required
+                  />
+                  {isRegister && (
+                    <>
                   <TextField
                     autoFocus
                     margin="dense"
                     id="phone"
-                    label="Phone"
+                    label="Shop Phone"
                     type="number"
                     fullWidth
                     value={phone}
@@ -187,7 +269,7 @@ const CreateBranch = () => {
                     autoFocus
                     margin="dense"
                     id="address"
-                    label="Address"
+                    label="Shop Address"
                     type="address"
                     fullWidth
                     value={address}
@@ -205,6 +287,7 @@ const CreateBranch = () => {
                       setImage(file);
                       showPreviewImage(e);
                     }}
+                    className='image-input'
                   />
                   {imagePreview && (
                     <img
@@ -223,21 +306,74 @@ const CreateBranch = () => {
                     onChange={(selectedOptions) => setSelectedPosMachines(selectedOptions)}
                     // onChange={(selectedOptions) => setSelectedPosMachines(selectedOptions)}
                   />
-                </DialogContent>
-                <DialogActions>
-                  <Button 
-                    type="submit"
-                    color="primary" 
-                    endIcon={<Send />}
-                    disabled={isSubmitting}
-                  >
-                    Submit
-                  </Button>
-                </DialogActions>
+                    </>
+                  )}
+
+                  <DialogActions
+                      sx={{
+                        display: 'flex',
+                        justifyContent: 'left',
+                        alignItems: 'center',
+                      }}
+                    >
+                      {isLogin && (
+                        <>
+                          <div className='sub-sub-fields'>
+                            <div>
+                              <input
+                                type="checkbox"
+                                id="rememberMe"
+                                name="rememberMe"
+                              />
+                              <label htmlFor="rememberMe">Remember me</label>
+                            </div>
+                            <div className="forgot-password">
+                              <Link to="" className="link">
+                                Forgot password?
+                              </Link>
+                            </div>
+                          </div>
+                        </>
+                      )}
+                    </DialogActions>
+                    <DialogActions
+                      sx={{
+                        display: 'flex',
+                        right: 0,
+                        top: '0',
+                      }}
+                    >
+                      <Button
+                        type="submit"
+                        color="primary"
+                        endIcon={<Send />}
+                        disabled={isSubmitting}
+                      >
+                        Submit
+                      </Button>
+                  </DialogActions>
               </form>
+
+              <DialogActions
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center'
+                }}
+              >
+                {isRegister
+                  ? "Do you have a shop account? Sign in here!"
+                  : "Don't have a shop account? Sign up here!"
+                }
+                <Button
+                  color="primary"
+                  onClick={isRegister ? handleLoginClick : handleRegisterClick}
+                  variant="text"
+                >
+                  {isRegister ? 'Sign in' : 'Sign up'}
+                </Button>
+              </DialogActions>
             </div>
-          </div>
-        </div>
       </div>
     </>
   );

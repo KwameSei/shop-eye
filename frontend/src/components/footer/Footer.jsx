@@ -35,7 +35,7 @@ const Footer = () => {
         <div className="footer-items">
           <h3>Make Money with Us</h3>
           <p>Sell products on Shop Eye</p>
-          <p>Sell apps on Shop Eye</p>
+          <Link to={'/shop-create'}>Sell apps on Shop Eye</Link>
           <p>Become an Affiliate</p>
           <p>Advertise Your Products</p>
           <p>Self-Publish with Us</p>

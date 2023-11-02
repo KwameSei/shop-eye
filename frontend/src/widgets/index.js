@@ -29,4 +29,4 @@ export { default as Orders } from './order/Orders.jsx';
 export { default as FAQ } from './products/faq/FAQ.jsx';
 export { default as Refund } from './finance/Refund.jsx';
 export { default as PaymentMethods } from './finance/PaymentMethods.jsx';
-export { default as ShopCreate } from './shop/ShopCreate.jsx';
+export { default as ShopCreatePage } from './shop/ShopCreatePage.jsx';

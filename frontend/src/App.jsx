@@ -30,7 +30,7 @@ import {
   BestSelling,
   ProductEvents,
   Orders,
-  ShopCreate,
+  ShopCreatePage,
   FAQ,
 } from './widgets';
 import { setLogin, setLogout, setToken } from './State/auth/authSlice';
@@ -139,7 +139,7 @@ function App() {
           <Route path='/dashboard' element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
           <Route path='/create-pos' element={<PosCreate />} />
           <Route path='/display-pos' element={<DisplayPos />} />
-          <Route path='/create-branch' element={<ProtectedRoute><CreateBranch /></ProtectedRoute>} />
+          <Route path='/shop-create' element={<ProtectedRoute><CreateBranch /></ProtectedRoute>} />
           <Route path='/display-branches' element={<ProtectedRoute><DisplayBranch /></ProtectedRoute>} />
           <Route path='/update-pos/:id' element={<UpdatePos />} />
           <Route path='/create-supplier' element={<ProtectedRoute><CreateSupplier /></ProtectedRoute>} />
@@ -154,7 +154,7 @@ function App() {
           <Route path='/product/:id' element={<ProtectedRoute><SingleProduct /></ProtectedRoute>} />
           <Route path='/orders' element={<ProtectedRoute><Orders /></ProtectedRoute>} />
           <Route path='/account-activation/:token' element={<AccountActivation />} />
-          <Route path='/shop-create' element={<ShopCreate />} />
+          {/* <Route path='/shop-create' element={<ShopCreatePage />} /> */}
           <Route path='/faq' element={<FAQ />} />
             {/* <Route element={<Dashboard />}  /> */}
           {/* </Route> */}

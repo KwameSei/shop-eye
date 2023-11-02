@@ -1,24 +1,35 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { Button, DialogActions, DialogContent, DialogContentText, TextField } from '@mui/material';
-import { Send } from '@mui/icons-material';
-import { setUser, setToken, loadUserSuccess, setLoading } from '../../State/auth/authSlice';
-import { useLoading } from '../../components/Loading.jsx';
-import { toast } from 'react-toastify';
-import { Loader } from '../../components';
+import React, { useEffect, useRef, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  Button,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  TextField,
+} from "@mui/material";
+import { Send } from "@mui/icons-material";
+import {
+  setUser,
+  setToken,
+  loadUserSuccess,
+  setLoading,
+} from "../../State/auth/authSlice";
+import { useLoading } from "../../components/Loading.jsx";
+import { toast } from "react-toastify";
+import { Loader } from "../../components";
 
-import './Auth.scss';
+import "./Auth.scss";
 
 const Auth = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [error, setError] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [pageType, setPageType] = useState('login');
+  const [pageType, setPageType] = useState("login");
   const [users, setUsers] = useState([]); // Users state
   const [isRegister, setIsRegister] = useState(false);
-  const [title, setTitle] = useState('Login');
+  const [title, setTitle] = useState("Login");
   const nameRef = useRef();
   const emailRef = useRef();
   const passwordRef = useRef();
@@ -34,7 +45,7 @@ const Auth = () => {
 
   // Use useEffect to change the title of the page
   useEffect(() => {
-    setTitle(isRegister ? 'Register' : 'Login');
+    setTitle(isRegister ? "Register" : "Login");
   }, [isRegister]);
 
   const handleRegister = async () => {
@@ -47,7 +58,7 @@ const Auth = () => {
       name,
       email,
       password,
-      confirmPassword
+      confirmPassword,
     };
 
     try {
@@ -56,20 +67,20 @@ const Auth = () => {
       setError(null);
 
       const response = await fetch(`${serverURL}/api/users/register`, {
-        method: 'POST',
+        method: "POST",
         headers: {
           authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(userData)
+        body: JSON.stringify(userData),
       });
 
       const data = await response.json();
       setIsSubmitting(false);
 
       if (!response.ok) {
-        toast.error(data.message || 'Something went wrong!');
-        throw new Error(data.message || 'Something went wrong!');
+        toast.error(data.message || "Something went wrong!");
+        throw new Error(data.message || "Something went wrong!");
       }
 
       // Display a message to the user about activation
@@ -83,12 +94,11 @@ const Auth = () => {
 
       dispatch(loadUserSuccess(data.user));
       dispatch(setToken(data.token));
-      toast.success('Registration successful!');
-      navigate('/dashboard');
-
+      toast.success("Registration successful!");
+      navigate("/dashboard");
     } catch (err) {
       console.log(err);
-      setError(err.message || 'Something went wrong!');
+      setError(err.message || "Something went wrong!");
     } finally {
       setLoading(false);
       setIsSubmitting(false);
@@ -101,7 +111,7 @@ const Auth = () => {
 
     const userData = {
       email,
-      password
+      password,
     };
 
     try {
@@ -110,19 +120,19 @@ const Auth = () => {
       setError(null);
 
       const response = await fetch(`${serverURL}/api/users/login`, {
-        method: 'POST',
+        method: "POST",
         headers: {
           authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(userData)
+        body: JSON.stringify(userData),
       });
 
       // const data = await response.json();
       // setIsSubmitting(false);
 
       if (!response.ok) {
-        throw new Error(data.message || 'Something went wrong!');
+        throw new Error(data.message || "Something went wrong!");
       }
 
       // dispatch(setUser(data.user));
@@ -133,20 +143,20 @@ const Auth = () => {
       const data = await response.json();
       dispatch(loadUserSuccess(data.user)); // Dispatch the action
       dispatch(setToken(data.token));
-      toast.success('Login successful!');
-      navigate('/dashboard');
+      toast.success("Login successful!");
+      navigate("/dashboard");
     } catch (err) {
       console.log(err);
-      toast.error(err.message || 'Something went wrong!');
-      setError(err.message || 'Something went wrong!');
+      toast.error(err.message || "Something went wrong!");
+      setError(err.message || "Something went wrong!");
     } finally {
       setLoading(false);
       setIsSubmitting(false);
     }
 
     // Clear the form
-    emailRef.current.value = '';
-    passwordRef.current.value = '';
+    emailRef.current.value = "";
+    passwordRef.current.value = "";
   };
 
   const handleSubmit = (e) => {
@@ -179,7 +189,9 @@ const Auth = () => {
           <p className="login-box-msg">{title}</p>
           <form onSubmit={handleSubmit}>
             <DialogContent dividers>
-              <DialogContentText>Please enter your details here.</DialogContentText>
+              <DialogContentText>
+                Please enter your details here.
+              </DialogContentText>
               {isRegister && (
                 <TextField
                   autoFocus
@@ -231,14 +243,14 @@ const Auth = () => {
             </DialogContent>
             <DialogActions
               sx={{
-                display: 'flex',
-                justifyContent: 'left',
-                alignItems: 'center',
+                display: "flex",
+                justifyContent: "left",
+                alignItems: "center",
               }}
             >
               {isLogin && (
                 <>
-                  <div className='sub-sub-fields'>
+                  <div className="sub-sub-fields">
                     <div>
                       <input
                         type="checkbox"
@@ -258,9 +270,9 @@ const Auth = () => {
             </DialogActions>
             <DialogActions
               sx={{
-                display: 'flex',
+                display: "flex",
                 right: 0,
-                top: '0',
+                top: "0",
               }}
             >
               <Button
@@ -275,29 +287,25 @@ const Auth = () => {
           </form>
           <DialogActions
             sx={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center'
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
             }}
           >
             {isRegister
               ? "Do you have an account? Sign in here!"
-              : "Don't have an account? Sign up here!"
-            }
+              : "Don't have an account? Sign up here!"}
             <Button
               color="primary"
               onClick={isRegister ? handleLoginClick : handleRegisterClick}
               variant="text"
             >
-              {isRegister ? 'Sign in' : 'Sign up'}
+              {isRegister ? "Sign in" : "Sign up"}
             </Button>
           </DialogActions>
         </div>
       </div>
-      {isLoading && (
-        <Loader />
-        )
-      }
+      {isLoading && <Loader />}
     </div>
   );
 };
